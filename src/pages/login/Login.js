@@ -1,8 +1,9 @@
+import * as S from './login-styles'
 function Login() {
     return (
-        <div>
+        <S.Container>
             <h1>Login</h1>
-        </div>
+        </S.Container>
     )
 }
 
