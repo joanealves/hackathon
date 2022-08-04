@@ -28,3 +28,19 @@ export const FlexColumnDiv = styled.div`
 export const Div = styled.div`
   padding: 10px 0 15px 0;
 `;
+
+export const Input = styled.input`
+  width: 360px;
+  height: 60px;
+  border: none;
+  border-radius: 10px;
+  color: var(--green_dark);
+  font-size: 18px;
+  &:placeholder {
+    color: var(--green_light);
+    font-size: 18px;
+  }
+  &:focus {
+    border: 1px solid var(--shape);
+  }
+`;

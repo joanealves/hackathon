@@ -50,7 +50,7 @@ function Cadastro() {
       <S.Form onSubmit={postData}>
         {/* Insert title */}
         <label htmlFor="product-name"></label>
-        <input
+        <S.Input
           type="text"
           name="product-name"
           placeholder="Nome do produto"
@@ -68,7 +68,6 @@ function Cadastro() {
             id="repetition"
             onChange={(e) => setRepetition(e.target.value)}
           />
-          {/* Select repetition step (day, week, month) */}
           <span>semana(s)</span>
         </div>
 

@@ -1,12 +1,12 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
     :root {
-        --withe: #FFFF;
+        --white: #FFFF;
         --black: #100f10;
         --gray: #2c3333;
         --green_dark: #395b64;
-        --green_ligth: #a5c9ca;
+        --green_light: #a5c9ca;
         --shape: #e7f6f2;
     }
 
@@ -37,6 +37,6 @@ export const GlobalStyle = createGlobalStyle`
 
     button {
         cursor: pointer;
-        color: var(--green_ligth);
+        color: var(--green_light);
     }
-`
+`;
