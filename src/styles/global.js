@@ -32,6 +32,7 @@ export const GlobalStyle = createGlobalStyle`
 
     body {
         -webkit-font-smoothing: antialiased;
+        background-color: var(--shape);
     }
 
     button {
