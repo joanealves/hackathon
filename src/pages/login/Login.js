@@ -1,11 +1,15 @@
 import * as S from "./login-styles";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
+import CryptoJS from "crypto-js";
 
 function Login() {
   const handleClickLogin = (values) => {
-    console.log(values);
+    const data = values;
+    const hash = CryptoJS.AES.encrypt(data.email, data.cpf).toString();
+    console.log(hash);
   };
+
   const validationLogin = yup.object().shape({
     email: yup.string().email("Email inválido!").required("Campo obrigatório!"),
     cpf: yup
