@@ -49,18 +49,20 @@ function Cadastro() {
       {/* Product registration form */}
       <S.Form onSubmit={postData}>
         {/* Insert title */}
-        <label htmlFor="product-name"></label>
-        <S.Input
-          type="text"
-          name="product-name"
-          placeholder="Nome do produto"
-          onChange={(e) => setProductName(e.target.value)}
-        />
+        <div>
+          <S.Input
+            type="text"
+            name="product-name"
+            placeholder="Nome do produto"
+            onChange={(e) => setProductName(e.target.value)}
+          />
+          {/* <label htmlFor="product-name">Nome do produto</label> */}
+        </div>
 
         {/* Insert how many times repetition will occur */}
-        <div>
-          <label htmlFor="repetition">Repetir a cada</label>
-          <input
+        <S.Div>
+          <S.Label htmlFor="repetition">Repetir a cada</S.Label>
+          <S.InputNumber
             type="number"
             min="0"
             step="1"
@@ -68,44 +70,55 @@ function Cadastro() {
             id="repetition"
             onChange={(e) => setRepetition(e.target.value)}
           />
-          <span>semana(s)</span>
-        </div>
+          <S.Label>semana(s)</S.Label>
+        </S.Div>
 
         {/* Select product recurrence by week day */}
-        <div>
-          <label htmlFor="week-repetition">Repetir:</label>
-        </div>
-        <S.FlexDiv onChange={(e) => setRepetitionDay(e.target.value)}>
-          <S.RadioButton type="radio" name="weekday" id="sun" value="0" />
-          <label htmlFor="weekday">D</label>
-          <S.RadioButton type="radio" name="weekday" id="mon" value="1" />
-          <label htmlFor="">S</label>
-          <S.RadioButton type="radio" name="weekday" id="tue" value="2" />
-          <label htmlFor="">T</label>
-          <S.RadioButton type="radio" name="weekday" id="wed" value="3" />
-          <label htmlFor="">Q</label>
-          <S.RadioButton type="radio" name="weekday" id="thu" value="4" />
-          <label htmlFor="">Q</label>
-          <S.RadioButton type="radio" name="weekday" id="fri" value="5" />
-          <label htmlFor="">S</label>
-          <S.RadioButton type="radio" name="weekday" id="sat" value="6" />
-          <label htmlFor="">S</label>
-        </S.FlexDiv>
+        <S.Div>
+          <S.Label htmlFor="weekday">Dia da semana:</S.Label>
+        </S.Div>
+
+        <S.Select
+          name="weekday"
+          onChange={(e) => setRepetitionDay(e.target.value)}
+        >
+          <option id="sun" value="0">
+            Domingo
+          </option>
+          <option id="mon" value="1">
+            Segunda
+          </option>
+          <option id="tue" value="2">
+            Terça
+          </option>
+          <option id="wed" value="3">
+            Quarta
+          </option>
+          <option id="thu" value="4">
+            Quinta
+          </option>
+          <option id="fri" value="5">
+            Sexta
+          </option>
+          <option id="sat" value="6">
+            Sábado
+          </option>
+        </S.Select>
 
         {/* Select when repetition will end */}
         <S.FlexColumnDiv>
-          <label>Termina em:</label>
-          <div>
+          <S.Label>Termina:</S.Label>
+          <S.Div>
             <input type="radio" name="repetition-ends" id="never" />
-            <label htmlFor="repetition-ends-never">Nunca</label>
-          </div>
+            <S.Label htmlFor="repetition-ends-never">Nunca</S.Label>
+          </S.Div>
           <div>
             <input type="radio" name="repetition-ends" id="date" />
-            <label>Em: </label>
-            <input type="date" onChange={handleDate} />
+            <S.Label>Em: </S.Label>
+            <S.InputDate type="date" onChange={handleDate} />
           </div>
         </S.FlexColumnDiv>
-        <button type="submit">+ Cadastrar</button>
+        <S.Button type="submit">Cadastrar</S.Button>
       </S.Form>
     </S.Container>
   );
