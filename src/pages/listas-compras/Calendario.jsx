@@ -6,16 +6,14 @@ import moment from 'moment'
 const localizer = momentLocalizer(moment)
 
 
-function Calendario() {
+function Calendario({ listProducts }) {
 
     return (
         <Fragment>
             <div>Calendario</div>
             <Calendar
                 localizer={localizer}
-                events={[
-                    { title: "Evento teste", start: moment().toDate(), end: moment().add(30, 'minutes').toDate() }
-                ]}
+                events={listProducts}
                 defaultView="week"
                 selectable
                 popup

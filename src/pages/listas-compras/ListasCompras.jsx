@@ -4,7 +4,11 @@ import * as S from "./ListasCompras.styles";
 
 const apiAirtable = 'https://api.airtable.com/v0/app4vUGC2nxXBaIY7/Produtos?fields%5B%5D=id&fields%5B%5D=id_usuario&fields%5B%5D=nome&fields%5B%5D=repeticao&fields%5B%5D=repeticao_dia&fields%5B%5D=encerramento&fields%5B%5D=data_criacao'
 
+let months = ["Jan", "Feb", "Mar", "Apr", "May", "Juny", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
 function ListasCompras() {
+
+    const [listProducts, setlistProducts] = useState()
 
     useEffect(() => {
         // Airtable Connection 
@@ -21,7 +25,35 @@ function ListasCompras() {
         fetch(apiAirtable, requestOptions)
             .then(response => response.json())
             .then(result => {
-                console.log('result', result)
+
+                // lista formatada para enviar dados ao Calendário
+                const formattedListProducts = () => {
+                    const newList = result?.records?.map(item => {
+
+                        // formatação data Inicial
+                        const newDateStart = new Date(item.fields?.data_criacao * 1000)
+                        const splitedStart = newDateStart?.toString()?.split(' ')
+                        const year = splitedStart?.[3]
+                        const month = splitedStart?.[1]
+                        const day = splitedStart?.[2]
+                        const testMes = months.indexOf(month)
+
+                        // formatação data de Encerramento
+                        const newDateEnd = new Date(item.fields?.encerramento * 1000)
+
+
+
+                        return {
+                            title: item.fields?.nome,
+                            start: new Date(year, testMes, day),
+                            end: new Date(year, testMes, day),
+                        }
+                    })
+                    return newList
+                }
+
+                const list = formattedListProducts()
+                setlistProducts(list)
             })
             .catch(error => console.log('error', error));
     }, [])
@@ -30,7 +62,7 @@ function ListasCompras() {
     return (
         <S.Container>
             <h1>Listas de Compra</h1>
-            <Calendario />
+            {listProducts && <Calendario listProducts={listProducts} />}
         </S.Container>
     );
 }

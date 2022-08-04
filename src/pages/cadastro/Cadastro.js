@@ -38,7 +38,9 @@ function Cadastro() {
   const handleDate = (e) => {
     var getDate = e.target.value;
     var SelectedDate = new Date(getDate).getTime() / 1000;
-
+    console.log('getDate', getDate)
+    const teste = document.write(getDate.toGMTString());
+    console.log('teste', teste)
     setEndingDay(SelectedDate);
   };
 
