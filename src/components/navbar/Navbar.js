@@ -1,17 +1,16 @@
 // import { Link } from 'react-router-dom'
 import * as S from "./Navbar.styles"
-import Logo from "../../assets/marketit.png"
+// import Logo from "../../assets/marketit.png"
 import LogoCar from "../../assets/Logo sem fundo.png"
-import { Fragment } from "react"
 
 function Navbar() {
     return (
-        <Fragment>
+        <S.HEADER>
             <S.LogoContainer>
                 <S.LogoCar src={LogoCar} alt="Logo escrita Market.It">
                 </S.LogoCar>
-                <S.MarketLogo src={Logo} alt="Logo escrita Market.It">
-                </S.MarketLogo>
+                {/* <S.MarketLogo src={Logo} alt="Logo escrita Market.It">
+                </S.MarketLogo> */}
             </S.LogoContainer>
             <S.NavContainer>
                 <S.NavLink exact to="/">Login</S.NavLink>
@@ -21,7 +20,7 @@ function Navbar() {
                 <S.NavLink to="/lista-completa">Lista Diária</S.NavLink>
             </S.NavContainer>
 
-        </Fragment>
+        </S.HEADER>
 
     )
 }
