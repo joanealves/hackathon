@@ -13,7 +13,7 @@ import { PrivateRoute } from "./privateRoute";
 const Rotas = () => {
   return (
     <BrowserRouter>
-      <Navbar />
+      {/* <Navbar /> */}
       <S.Container></S.Container>
       <Routes>
         <Route exact path="/" element={<Login />} />
