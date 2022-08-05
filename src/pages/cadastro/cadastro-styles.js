@@ -2,12 +2,12 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: 375px;
-  margin: 0 auto;
+  margin: 30px auto;
   color: var(--green_dark);
 `;
 
 export const Form = styled.form`
-  padding: 20px 0;
+  padding: 40px 0;
 `;
 
 export const Div = styled.div`
