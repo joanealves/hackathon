@@ -53,7 +53,7 @@ function Cadastro() {
       {/* Product registration form */}
       <S.Form onSubmit={postData}>
         {/* Insert title */}
-        <div>
+        <S.Div>
           <input
             type="text"
             name="product-name"
@@ -61,11 +61,11 @@ function Cadastro() {
             onChange={(e) => setProductName(e.target.value)}
           />
           {/* <label htmlFor="product-name">Nome do produto</label> */}
-        </div>
+        </S.Div>
 
         {/* Insert how many times repetition will occur */}
         <S.Div>
-          <label htmlFor="repetition">Repetir a cada</label>
+          <label htmlFor="repetition">Repetir a cada </label>
           <input
             type="number"
             min="0"
@@ -74,7 +74,7 @@ function Cadastro() {
             id="repetition"
             onChange={(e) => setRepetition(e.target.value)}
           />
-          <label>semana(s)</label>
+          <span>semana(s)</span>
         </S.Div>
 
         {/* Select product recurrence by week day */}
@@ -82,7 +82,7 @@ function Cadastro() {
           <label htmlFor="weekday">Dia da semana:</label>
         </S.Div>
 
-        <S.Select
+        <select
           name="weekday"
           onChange={(e) => setRepetitionDay(e.target.value)}
         >
@@ -107,21 +107,21 @@ function Cadastro() {
           <option id="sat" value="6">
             Sábado
           </option>
-        </S.Select>
+        </select>
 
         {/* Select when repetition will end */}
-        <S.FlexColumnDiv>
+        <S.RadioGroup>
           <label>Termina:</label>
-          <S.Div>
+          <div>
             <input type="radio" name="repetition-ends" id="never" />
             <label htmlFor="repetition-ends-never">Nunca</label>
-          </S.Div>
+          </div>
           <div>
             <input type="radio" name="repetition-ends" id="date" />
             <label>Em: </label>
-            <S.InputDate type="date" onChange={handleDate} />
+            <input type="date" onChange={handleDate} />
           </div>
-        </S.FlexColumnDiv>
+        </S.RadioGroup>
         <button type="submit">Cadastrar</button>
       </S.Form>
     </S.Container>
