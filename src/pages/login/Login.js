@@ -1,13 +1,52 @@
 import * as S from "./login-styles";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
-import CryptoJS from "crypto-js";
+import LogoCar from "../../assets/Logo sem fundo.png";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 function Login() {
+  const navigate = useNavigate();
+
+  const log = () => {
+    navigate("/cadastro");
+  };
+
   const handleClickLogin = (values) => {
-    const data = values;
-    const hash = CryptoJS.AES.encrypt(data.email, data.cpf).toString();
+    const dados = values.email + "-" + values.cpf;
+    var CryptoJS = require("crypto-js");
+    const hash = CryptoJS.MD5(dados).toString();
     console.log(hash);
+
+    var user = [];
+    const addUser = () => {
+      if (localStorage.users) {
+        user = JSON.parse(localStorage.getItem("users"));
+      }
+      user.push(hash);
+      localStorage.users = JSON.stringify(user);
+
+      var Airtable = require("airtable");
+      var base = new Airtable({ apiKey: "keyIQRTXBdJyaVJaz" }).base(
+        "app4vUGC2nxXBaIY7"
+      );
+
+      // Creating a new record and posting on Airtable
+      base("Produtos").create(
+        {
+          id_usuario: hash,
+        },
+        function (err, record) {
+          if (err) {
+            console.error(err);
+            return;
+          }
+          console.log("HASH", record.fields);
+        }
+      );
+    };
+    addUser();
+    log();
   };
 
   const validationLogin = yup.object().shape({
@@ -22,7 +61,7 @@ function Login() {
   return (
     <div>
       <S.Image>
-        <h1>!!!!</h1>
+        <img src={LogoCar}></img>
       </S.Image>
 
       <S.Title>

@@ -3,8 +3,11 @@ import styled from "styled-components";
 export const Image = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 15px;
-  font-size: 35px;
+  img {
+    width: 120px;
+  }
+  margin-top: 50px;
+  margin-bottom: 20px;
 `;
 
 export const Title = styled.div`
@@ -55,11 +58,12 @@ export const LoginForm = styled.div`
   }
 
   span {
-    color: red;
+    color: #ff2121;
     display: flex;
     justify-content: center;
     margin-top: 2px;
     font-size: 14px;
+    font-weight: 500;
   }
 
   button {
