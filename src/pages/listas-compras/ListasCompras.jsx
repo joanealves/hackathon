@@ -36,17 +36,14 @@ function ListasCompras() {
                         const year = splitedStart?.[3]
                         const month = splitedStart?.[1]
                         const day = splitedStart?.[2]
-                        const testMes = months.indexOf(month)
+                        const mesIndexOf = months.indexOf(month)
 
-                        // formatação data de Encerramento
-                        const newDateEnd = new Date(item.fields?.encerramento * 1000)
-
-
+                        const repetirDia = item.fields.repeticao_dia
 
                         return {
                             title: item.fields?.nome,
-                            start: new Date(year, testMes, day),
-                            end: new Date(year, testMes, day),
+                            start: new Date(year, mesIndexOf, repetirDia),
+                            end: new Date(year, mesIndexOf, repetirDia),
                         }
                     })
                     return newList
