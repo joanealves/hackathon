@@ -6,8 +6,9 @@ function Cadastro() {
   const [productName, setProductName] = useState("");
   const [repetition, setRepetition] = useState(0);
   const [repetitionDay, setRepetitionDay] = useState(0);
-  const [endindDay, setEndingDay] = useState(1660521600);
+  const [endingDay, setEndingDay] = useState(0);
 
+  // Post data to Airtable
   const postData = (e) => {
     e.preventDefault();
     // Airtable Connection and Configuration
@@ -16,6 +17,7 @@ function Cadastro() {
       "app4vUGC2nxXBaIY7"
     );
 
+    // Pegar no localStorage os dados do id_usuario
     // Creating a new record and posting on Airtable
     base("Produtos").create(
       {
@@ -23,7 +25,7 @@ function Cadastro() {
         nome: productName,
         repeticao: parseInt(repetition),
         repeticao_dia: parseInt(repetitionDay),
-        encerramento: endindDay,
+        encerramento: endingDay,
         data_criacao: new Date().getTime() / 1000,
       },
       function (err, record) {
@@ -34,14 +36,13 @@ function Cadastro() {
         console.log(record.getId());
       }
     );
+    e.target.reset();
   };
 
   const handleDate = (e) => {
     var getDate = e.target.value;
     var SelectedDate = new Date(getDate).getTime() / 1000;
     console.log("getDate", getDate);
-    const teste = document.write(getDate.toGMTString());
-    console.log("teste", teste);
     setEndingDay(SelectedDate);
   };
 
@@ -53,7 +54,7 @@ function Cadastro() {
       <S.Form onSubmit={postData}>
         {/* Insert title */}
         <div>
-          <S.Input
+          <input
             type="text"
             name="product-name"
             placeholder="Nome do produto"
@@ -64,8 +65,8 @@ function Cadastro() {
 
         {/* Insert how many times repetition will occur */}
         <S.Div>
-          <S.Label htmlFor="repetition">Repetir a cada</S.Label>
-          <S.InputNumber
+          <label htmlFor="repetition">Repetir a cada</label>
+          <input
             type="number"
             min="0"
             step="1"
@@ -73,12 +74,12 @@ function Cadastro() {
             id="repetition"
             onChange={(e) => setRepetition(e.target.value)}
           />
-          <S.Label>semana(s)</S.Label>
+          <label>semana(s)</label>
         </S.Div>
 
         {/* Select product recurrence by week day */}
         <S.Div>
-          <S.Label htmlFor="weekday">Dia da semana:</S.Label>
+          <label htmlFor="weekday">Dia da semana:</label>
         </S.Div>
 
         <S.Select
@@ -110,18 +111,18 @@ function Cadastro() {
 
         {/* Select when repetition will end */}
         <S.FlexColumnDiv>
-          <S.Label>Termina:</S.Label>
+          <label>Termina:</label>
           <S.Div>
             <input type="radio" name="repetition-ends" id="never" />
-            <S.Label htmlFor="repetition-ends-never">Nunca</S.Label>
+            <label htmlFor="repetition-ends-never">Nunca</label>
           </S.Div>
           <div>
             <input type="radio" name="repetition-ends" id="date" />
-            <S.Label>Em: </S.Label>
+            <label>Em: </label>
             <S.InputDate type="date" onChange={handleDate} />
           </div>
         </S.FlexColumnDiv>
-        <S.Button type="submit">Cadastrar</S.Button>
+        <button type="submit">Cadastrar</button>
       </S.Form>
     </S.Container>
   );

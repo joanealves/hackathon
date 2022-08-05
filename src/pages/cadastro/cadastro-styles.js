@@ -8,6 +8,44 @@ export const Container = styled.div`
 
 export const Form = styled.form`
   padding: 40px 0;
+
+  input {
+    background: #ffff;
+    border: 1px solid #00000033;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    width: 320px;
+    padding: 15px;
+    font-size: 15px;
+  }
+
+  p {
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+
+  button {
+    width: 100%;
+    padding: 15px;
+    background: #395b64;
+    color: #ffff;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border: 1px solid #00000033;
+    border-radius: 40px;
+    font-size: 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: 200ms;
+  }
+
+  button:hover {
+    background-color: #295b64;
+  }
+
+  label {
+    font-size: 1.3em;
+    margin-left: 5px;
+  }
 `;
 
 export const Div = styled.div`
@@ -25,27 +63,6 @@ export const InputTextDiv = styled.div`
   padding: 15px 0 0;
   margin-top: 10px;
   width: 50%;
-`;
-
-export const Input = styled.input`
-  font-family: inherit;
-  width: 100%;
-  border: 0;
-  border-bottom: 2px solid var(--green_dark);
-  outline: 0;
-  font-size: 1.3rem;
-  color: var(--gray);
-  padding: 7px 0;
-  background: transparent;
-  transition: border-color 0.2s;
-  &:placeholder {
-    color: transparent;
-  }
-`;
-
-export const InputNumber = styled(Input)`
-  width: 25%;
-  padding-left: 10%;
 `;
 
 export const InputDate = styled.input`
@@ -92,19 +109,19 @@ export const Label = styled.label`
   margin-left: 5px;
 `;
 
-export const Button = styled.button`
-  width: 100%;
-  float: right;
-  background: var(--green_dark);
-  color: var(--white);
-  border: 2px solid var(--green_dark);
-  box-shadow: #000 0 5px 5px -5px;
-  font-size: 1.5em;
-  padding: 0.25em 1em;
-  border-radius: 10px;
-  margin-top: 20px;
-  &:hover {
-    background: var(--green_light);
-    color: var(--green_dark);
-  }
-`;
+// export const Button = styled.button`
+//   width: 100%;
+//   float: right;
+//   background: var(--green_dark);
+//   color: var(--white);
+//   border: 2px solid var(--green_dark);
+//   box-shadow: #000 0 5px 5px -5px;
+//   font-size: 1.5em;
+//   padding: 0.25em 1em;
+//   border-radius: 10px;
+//   margin-top: 20px;
+//   &:hover {
+//     background: var(--green_light);
+//     color: var(--green_dark);
+//   }
+// `;
