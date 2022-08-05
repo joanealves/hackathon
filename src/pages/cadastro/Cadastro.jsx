@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import * as S from "./cadastro-styles";
 
 function Cadastro() {
@@ -7,6 +6,7 @@ function Cadastro() {
   const [repetition, setRepetition] = useState(0);
   const [repetitionDay, setRepetitionDay] = useState(0);
   const [endingDay, setEndingDay] = useState(0);
+  const [checked, setChecked] = useState(false);
 
   // Post data to Airtable
   const postData = (e) => {
@@ -17,11 +17,10 @@ function Cadastro() {
       "app4vUGC2nxXBaIY7"
     );
 
-    // Pegar no localStorage os dados do id_usuario
     // Creating a new record and posting on Airtable
     base("Produtos").create(
       {
-        id_usuario: "0277a69cf889d21e9614966db20e858a",
+        id_usuario: JSON.parse(localStorage.getItem("users"))[0],
         nome: productName,
         repeticao: parseInt(repetition),
         repeticao_dia: parseInt(repetitionDay),
@@ -37,6 +36,7 @@ function Cadastro() {
       }
     );
     e.target.reset();
+    alert("Cadastro de produto realizado com sucesso!");
   };
 
   const handleDate = (e) => {
@@ -44,6 +44,10 @@ function Cadastro() {
     var SelectedDate = new Date(getDate).getTime() / 1000;
     console.log("getDate", getDate);
     setEndingDay(SelectedDate);
+  };
+
+  const handleDisabledRadio = () => {
+    setChecked(true);
   };
 
   return (
@@ -59,8 +63,8 @@ function Cadastro() {
             name="product-name"
             placeholder="Nome do produto"
             onChange={(e) => setProductName(e.target.value)}
+            required
           />
-          {/* <label htmlFor="product-name">Nome do produto</label> */}
         </S.Div>
 
         {/* Insert how many times repetition will occur */}
@@ -68,11 +72,12 @@ function Cadastro() {
           <label htmlFor="repetition">Repetir a cada </label>
           <input
             type="number"
-            min="0"
+            min="1"
             step="1"
             name="repetition"
             id="repetition"
             onChange={(e) => setRepetition(e.target.value)}
+            required
           />
           <span>semana(s)</span>
         </S.Div>
@@ -85,7 +90,11 @@ function Cadastro() {
         <select
           name="weekday"
           onChange={(e) => setRepetitionDay(e.target.value)}
+          required
         >
+          <option disabled selected>
+            -- Selecione --
+          </option>
           <option id="sun" value="0">
             Domingo
           </option>
@@ -111,15 +120,20 @@ function Cadastro() {
 
         {/* Select when repetition will end */}
         <S.RadioGroup>
-          <label>Termina:</label>
+          <span>Termina:</span>
           <div>
             <input type="radio" name="repetition-ends" id="never" />
             <label htmlFor="repetition-ends-never">Nunca</label>
           </div>
           <div>
-            <input type="radio" name="repetition-ends" id="date" />
+            <input type="radio" name="repetition-ends" id="radiobtn" />
             <label>Em: </label>
-            <input type="date" onChange={handleDate} />
+            <input type="date" id="date" onChange={handleDate} />
+            {/* {checked === "never" ? (
+              <input type="date" id="date" onChange={handleDate} disabled />
+            ) : (
+              <input type="date" id="date" onChange={handleDate} />
+            )} */}
           </div>
         </S.RadioGroup>
         <button type="submit">Cadastrar</button>

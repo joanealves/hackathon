@@ -45,6 +45,7 @@ export const Form = styled.form`
 
   input[type="radio"] {
     transform: scale(1.5);
+    margin-left: 5px;
   }
 
   p {
