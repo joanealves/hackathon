@@ -3,7 +3,6 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import LogoCar from "../../assets/Logo sem fundo.png";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 function Login() {
   const navigate = useNavigate();
@@ -13,11 +12,13 @@ function Login() {
   };
 
   const handleClickLogin = (values) => {
+    //encrypting user data
     const dados = values.email + "-" + values.cpf;
     var CryptoJS = require("crypto-js");
     const hash = CryptoJS.MD5(dados).toString();
     console.log(hash);
 
+    //saving LocalStorage hash
     var user = [];
     const addUser = () => {
       if (localStorage.users) {
@@ -25,30 +26,13 @@ function Login() {
       }
       user.push(hash);
       localStorage.users = JSON.stringify(user);
-
-      var Airtable = require("airtable");
-      var base = new Airtable({ apiKey: "keyIQRTXBdJyaVJaz" }).base(
-        "app4vUGC2nxXBaIY7"
-      );
-
-      // Creating a new record and posting on Airtable
-      base("Produtos").create(
-        {
-          id_usuario: hash,
-        },
-        function (err, record) {
-          if (err) {
-            console.error(err);
-            return;
-          }
-          console.log("HASH", record.fields);
-        }
-      );
+      console.log(localStorage.users);
     };
     addUser();
     log();
   };
 
+  //input validation
   const validationLogin = yup.object().shape({
     email: yup.string().email("Email inválido!").required("Campo obrigatório!"),
     cpf: yup
@@ -63,13 +47,11 @@ function Login() {
       <S.Image>
         <img src={LogoCar}></img>
       </S.Image>
-
       <S.Title>
         <div></div>
         <p>LOGIN/ SING UP</p>
         <div></div>
       </S.Title>
-
       <S.Login>
         <Formik
           initialValues={{}}
@@ -88,7 +70,6 @@ function Login() {
                 <Field name="cpf"></Field>
                 <ErrorMessage component="span" name="cpf"></ErrorMessage>
               </S.Cpf>
-
               <button type="submit">LOGIN</button>
             </Form>
           </S.LoginForm>
