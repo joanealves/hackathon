@@ -8,7 +8,6 @@ export const Container = styled.div`
   // background-color: var(--white);
   border-radius: 20px;
   }
-
 `;
 
 export const Form = styled.form`

@@ -1,15 +1,20 @@
 import React, { useState } from "react";
 import * as S from "./cadastro-styles";
-import Modal from "./Modal";
-import useModal from "./useModal";
+import Modal from "../../components/modal-cadastro/Modal";
+import useModal from "../../components/modal-cadastro/useModal";
 
 function Cadastro() {
+  // Product states
   const [productName, setProductName] = useState("");
   const [repetition, setRepetition] = useState(0);
   const [repetitionDay, setRepetitionDay] = useState(0);
   const [endingDay, setEndingDay] = useState(0);
+
+  // Radio buttons states
   const [isDateDisabled, setIsDateDisabled] = useState(true);
   const [isRequired, setIsRequired] = useState(false);
+
+  // Modal state
   const { isShowing, toggle } = useModal();
 
   // Post data to Airtable
@@ -33,17 +38,21 @@ function Cadastro() {
       },
       function (err, record) {
         if (err) {
+          alert("Seu produto não foi cadastrado corretamente.");
           console.error(err);
           return;
         }
+        // Open model after successfully post data
+        toggle();
         console.log(record.getId());
       }
     );
 
-    toggle();
+    // Reset form
     e.target.reset();
+
+    // Disable date input
     setIsDateDisabled(true);
-    // handleRadio();
   };
 
   const handleDate = (e) => {
@@ -76,6 +85,8 @@ function Cadastro() {
             type="text"
             name="product-name"
             placeholder="Nome do produto"
+            pattern="[a-zA-Z]+"
+            title="O nome do produto deve conter apenas letras"
             minLength={3}
             onChange={(e) => setProductName(e.target.value)}
             required
@@ -135,7 +146,7 @@ function Cadastro() {
         </select>
 
         {/* Select when repetition will end */}
-        <S.RadioGroup onClick={handleRadio}>
+        <S.RadioGroup onChange={handleRadio}>
           <span>Termina:</span>
           <div>
             <input
