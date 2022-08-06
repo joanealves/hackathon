@@ -39,9 +39,11 @@ function Cadastro() {
         console.log(record.getId());
       }
     );
+
+    toggle();
     e.target.reset();
     setIsDateDisabled(true);
-    toggle();
+    // handleRadio();
   };
 
   const handleDate = (e) => {
@@ -51,9 +53,15 @@ function Cadastro() {
     setEndingDay(SelectedDate);
   };
 
-  const handleRadio = () => {
-    setIsDateDisabled(false);
-    setIsRequired(true);
+  const handleRadio = (e) => {
+    if (e.target.value !== "never") {
+      setIsDateDisabled(false);
+      setIsRequired(true);
+    }
+
+    if (e.target.value === "never") {
+      document.getElementById("date").value = "";
+    }
   };
 
   return (
@@ -127,13 +135,14 @@ function Cadastro() {
         </select>
 
         {/* Select when repetition will end */}
-        <S.RadioGroup>
+        <S.RadioGroup onClick={handleRadio}>
           <span>Termina:</span>
           <div>
             <input
               type="radio"
               name="repetition-ends"
               id="never"
+              value="never"
               required
               onChange={() => setIsDateDisabled(true)}
             />
@@ -144,7 +153,7 @@ function Cadastro() {
               type="radio"
               name="repetition-ends"
               id="select-date"
-              onChange={handleRadio}
+              value="end-date"
             />
             <label>Em: </label>
             <input
