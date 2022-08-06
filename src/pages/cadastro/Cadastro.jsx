@@ -1,16 +1,17 @@
 import React, { useState } from "react";
+
 import * as S from "./cadastro-styles";
 import Modal from "../../components/modal-cadastro/Modal";
 import useModal from "../../components/modal-cadastro/useModal";
 
 function Cadastro() {
-  // Product states
+  // Product fields states
   const [productName, setProductName] = useState("");
   const [repetition, setRepetition] = useState(0);
   const [repetitionDay, setRepetitionDay] = useState(0);
   const [endingDay, setEndingDay] = useState(0);
 
-  // Radio buttons states
+  // Radio buttons and date states
   const [isDateDisabled, setIsDateDisabled] = useState(true);
   const [isRequired, setIsRequired] = useState(false);
 
@@ -58,7 +59,6 @@ function Cadastro() {
   const handleDate = (e) => {
     var getDate = e.target.value;
     var SelectedDate = new Date(getDate).getTime() / 1000;
-    console.log("getDate", getDate);
     setEndingDay(SelectedDate);
   };
 
@@ -85,7 +85,8 @@ function Cadastro() {
             type="text"
             name="product-name"
             placeholder="Nome do produto"
-            pattern="[a-zA-Z]+"
+            // pattern="[a-zA-Z]+"
+            pattern="^([A-zÀ-ú]|-|_|\s)+$[^\s]+(\s+[^\s]+)*$"
             title="O nome do produto deve conter apenas letras"
             minLength={3}
             onChange={(e) => setProductName(e.target.value)}
