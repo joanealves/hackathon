@@ -6,7 +6,7 @@ function Cadastro() {
   const [repetition, setRepetition] = useState(0);
   const [repetitionDay, setRepetitionDay] = useState(0);
   const [endingDay, setEndingDay] = useState(0);
-  const [checked, setChecked] = useState(false);
+  const [isRadioSelected, setIsRadioSelected] = useState(true);
 
   // Post data to Airtable
   const postData = (e) => {
@@ -46,8 +46,8 @@ function Cadastro() {
     setEndingDay(SelectedDate);
   };
 
-  const handleDisabledRadio = () => {
-    setChecked(true);
+  const handleRadio = () => {
+    setIsRadioSelected(false);
   };
 
   return (
@@ -126,14 +126,19 @@ function Cadastro() {
             <label htmlFor="repetition-ends-never">Nunca</label>
           </div>
           <div>
-            <input type="radio" name="repetition-ends" id="radiobtn" />
+            <input
+              type="radio"
+              name="repetition-ends"
+              id="radiobtn"
+              onChange={handleRadio}
+            />
             <label>Em: </label>
-            <input type="date" id="date" onChange={handleDate} />
-            {/* {checked === "never" ? (
-              <input type="date" id="date" onChange={handleDate} disabled />
-            ) : (
-              <input type="date" id="date" onChange={handleDate} />
-            )} */}
+            <input
+              type="date"
+              id="date"
+              onChange={handleDate}
+              disabled={isRadioSelected}
+            />
           </div>
         </S.RadioGroup>
         <button type="submit">Cadastrar</button>
