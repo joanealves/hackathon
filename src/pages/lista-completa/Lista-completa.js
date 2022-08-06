@@ -11,6 +11,7 @@ function ListaCompleta() {
 
 
     useEffect(() => {
+        newLista = []
         airtable()
     }, [])
 
