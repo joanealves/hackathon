@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import * as S from "./cadastro-styles";
+import Modal from "./Modal";
+import useModal from "./useModal";
 
 function Cadastro() {
   const [productName, setProductName] = useState("");
   const [repetition, setRepetition] = useState(0);
   const [repetitionDay, setRepetitionDay] = useState(0);
   const [endingDay, setEndingDay] = useState(0);
-  const [isRadioSelected, setIsRadioSelected] = useState(true);
+  const [isDateDisabled, setIsDateDisabled] = useState(true);
+  const [isRequired, setIsRequired] = useState(false);
+  const { isShowing, toggle } = useModal();
 
   // Post data to Airtable
   const postData = (e) => {
@@ -36,7 +40,8 @@ function Cadastro() {
       }
     );
     e.target.reset();
-    alert("Cadastro de produto realizado com sucesso!");
+    setIsDateDisabled(true);
+    toggle();
   };
 
   const handleDate = (e) => {
@@ -47,7 +52,8 @@ function Cadastro() {
   };
 
   const handleRadio = () => {
-    setIsRadioSelected(false);
+    setIsDateDisabled(false);
+    setIsRequired(true);
   };
 
   return (
@@ -62,6 +68,7 @@ function Cadastro() {
             type="text"
             name="product-name"
             placeholder="Nome do produto"
+            minLength={3}
             onChange={(e) => setProductName(e.target.value)}
             required
           />
@@ -90,9 +97,10 @@ function Cadastro() {
         <select
           name="weekday"
           onChange={(e) => setRepetitionDay(e.target.value)}
+          defaultValue={""}
           required
         >
-          <option disabled selected>
+          <option disabled value="">
             -- Selecione --
           </option>
           <option id="sun" value="0">
@@ -122,14 +130,20 @@ function Cadastro() {
         <S.RadioGroup>
           <span>Termina:</span>
           <div>
-            <input type="radio" name="repetition-ends" id="never" />
+            <input
+              type="radio"
+              name="repetition-ends"
+              id="never"
+              required
+              onChange={() => setIsDateDisabled(true)}
+            />
             <label htmlFor="repetition-ends-never">Nunca</label>
           </div>
           <div>
             <input
               type="radio"
               name="repetition-ends"
-              id="radiobtn"
+              id="select-date"
               onChange={handleRadio}
             />
             <label>Em: </label>
@@ -137,12 +151,14 @@ function Cadastro() {
               type="date"
               id="date"
               onChange={handleDate}
-              disabled={isRadioSelected}
+              disabled={isDateDisabled}
+              required={isRequired}
             />
           </div>
         </S.RadioGroup>
         <button type="submit">Cadastrar</button>
       </S.Form>
+      <Modal isShowing={isShowing} hide={toggle} />
     </S.Container>
   );
 }
