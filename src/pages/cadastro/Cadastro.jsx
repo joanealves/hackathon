@@ -85,8 +85,8 @@ function Cadastro() {
             type="text"
             name="product-name"
             placeholder="Nome do produto"
-            // pattern="[a-zA-Z]+"
-            pattern="^([A-zÀ-ú]|-|_|\s)+$[^\s]+(\s+[^\s]+)*$"
+            pattern="[a-zA-Z]+"
+            // pattern="^([A-zÀ-ú]|-|_|\s)+$[^\s]+(\s+[^\s]+)*$"
             title="O nome do produto deve conter apenas letras"
             minLength={3}
             onChange={(e) => setProductName(e.target.value)}
