@@ -55,8 +55,3 @@ export const ModalCloseButton = styled.button`
     margin-left: 0.5rem;
   }
 `;
-
-// .button-default {
-//   background: #247ba0;
-//   color: #fff;
-// }
