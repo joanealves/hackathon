@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ModalStyle = styled.div`
+export const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -24,13 +24,19 @@ export const ModalWrapper = styled.div`
 `;
 
 export const ModalWindow = styled.div`
+  top: 200px;
   z-index: 100;
   background: white;
   position: relative;
   margin: 1.75rem auto;
   border-radius: 3px;
-  max-width: 500px;
+  max-width: 375px;
+  height: 375px;
   padding: 2rem;
+
+  p {
+    margin-top: 70px;
+  }
 `;
 
 export const ModalHeader = styled.div`

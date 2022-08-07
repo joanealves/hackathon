@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 import * as S from "./cadastro-styles";
-import * as styles from "../login/login-styles";
 import LogoCar from "../../assets/Logo sem fundo.png";
 import Modal from "../../components/modal-cadastro/Modal";
 import useModal from "../../components/modal-cadastro/useModal";
@@ -78,17 +77,17 @@ function Cadastro() {
   return (
     <S.Container>
       {/* <h1 className="cadastroTitle">Cadastro de Produtos</h1> */}
-      <div className="header">
-        <styles.Image className="image">
+      <div className="headerCadastro">
+        <S.ImageCadastro className="image">
           <img src={LogoCar} alt="logo-markit"></img>
-        </styles.Image>
-        <styles.Title>
+        </S.ImageCadastro>
+        <S.TitleCadastro>
           <div></div>
           <p>
             CADASTRO <span className="hideTitle">DE PRODUTOS</span>
           </p>
           <div></div>
-        </styles.Title>
+        </S.TitleCadastro>
       </div>
 
       {/* Product registration form */}
@@ -99,10 +98,10 @@ function Cadastro() {
             type="text"
             name="product-name"
             placeholder="Nome do produto"
-            pattern="^[a-zA-Z\u00C0-\u00FF\s]+/i]+$"
+            pattern="^[a-zA-Z\u00C0-\u00FF\s+/i]+$"
             title="O nome do produto deve conter apenas letras"
             minLength={3}
-            onChange={(e) => setProductName(e.target.value)}
+            onChange={(e) => setProductName(e.target.value.trim())}
             required
           />
         </S.Div>
@@ -112,7 +111,7 @@ function Cadastro() {
           <label htmlFor="repetition">Repetir a cada </label>
           <input
             type="number"
-            min="1"
+            min="0"
             step="1"
             name="repetition"
             id="repetition"

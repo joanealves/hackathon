@@ -6,7 +6,7 @@ const Modal = ({ isShowing, hide }) =>
   isShowing
     ? ReactDOM.createPortal(
         <React.Fragment>
-          <S.ModalStyle className="modal-overlay" id="modal" />
+          <S.ModalOverlay className="modal-overlay" id="modal" />
           <S.ModalWrapper className="modal-wrapper" tabIndex={-1} role="dialog">
             <S.ModalWindow className="modal">
               <S.ModalHeader className="modal-header">
@@ -19,6 +19,7 @@ const Modal = ({ isShowing, hide }) =>
                 </S.ModalCloseButton>
               </S.ModalHeader>
               <p>Seu produto foi cadastrado com sucesso!</p>
+              <img src="" alt="" />
             </S.ModalWindow>
           </S.ModalWrapper>
         </React.Fragment>,

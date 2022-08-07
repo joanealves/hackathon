@@ -31,13 +31,51 @@ export const Container = styled.div`
     // background-color: var(--white);
     border-radius: 20px;
 
-    .header {
+    .headerCadastro {
       transform: scale(1.3);
     }
 
     .hideTitle {
       display: inline-block;
     }
+  }
+`;
+
+export const Image = styled.div`
+  display: flex;
+  justify-content: center;
+  img {
+    width: 120px;
+  }
+  margin-top: 50px;
+  margin-bottom: 20px;
+`;
+
+export const ImageCadastro = styled.div`
+  display: flex;
+  justify-content: center;
+  img {
+    width: 120px;
+  }
+  margin-top: 50px;
+  margin-bottom: 20px;
+`;
+
+export const TitleCadastro = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  div {
+    width: 105px;
+    height: 1px;
+    background-color: black;
+    margin: 10px;
+    background-color: #00000033;
+  }
+  p {
+    color: #00000080;
+    font-weight: 600;
   }
 `;
 
