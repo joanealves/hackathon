@@ -56,8 +56,8 @@ function Calendario({ listProducts }) {
                     selectable
                     popup
                     style={{ height: 600 }}
-                    onSelectSlot={handleSelectSlot}
-                    onSelectEvent={handleSelectEvent}
+                    // onSelectSlot={handleSelectSlot}
+                    // onSelectEvent={handleSelectEvent}
                     messages={messages}
                 />
             </S.CalendarBox>

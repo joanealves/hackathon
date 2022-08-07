@@ -40,19 +40,12 @@ function ListasCompras() {
   }
 
   if (listProducts) {
-
     for (let item of listProducts) {
       let data_criacao = new Date(item?.fields?.data_criacao * 1000)
       let data_encerramento = new Date(item?.fields?.encerramento * 1000)
-      console.log('data_criacao', item?.fields?.nome, data_criacao)
-      console.log('data_encerramento', item?.fields?.nome, data_encerramento)
 
 
       let firstDayOfWeek = moment(data_criacao).weekday(Number(0)).format('YYYY-MM-DD ')
-      let moment_last_day_of_Week = moment(data_criacao).weekday(Number(6)).format('YYYY-MM-DD ')
-      var splited_last_day_of_Week = moment_last_day_of_Week.split('-')
-      var last_day_of_Week = new Date(splited_last_day_of_Week[0], (splited_last_day_of_Week[1] - 1), splited_last_day_of_Week[2])
-
 
       if (data_criacao > firstDayOfWeek) {
         continue;
@@ -63,19 +56,13 @@ function ListasCompras() {
       }
       let somadedias = 0;
 
-
       if (data_criacao.getDay() > item?.fields.repeticao_dia) {
-        // console.log('if', item?.fields?.nome)
         somadedias = 7 - (data_criacao.getDay() - item?.fields.repeticao_dia)
-        // console.log('somadedias if', somadedias)
-        let primeiraOcorrencia = new Date(data_criacao.setDate(data_criacao.getDate() + somadedias))
-        console.log('Primeira ocorrencia: ', item?.fields?.nome, primeiraOcorrencia)
       } else {
         somadedias = (data_criacao.getDay() - item?.fields.repeticao_dia) * -1
       }
 
       let primeiraOcorrencia = new Date(data_criacao.setDate(data_criacao.getDate() + somadedias))
-      console.log('Primeira ocorrencia: ', item?.fields?.nome, primeiraOcorrencia)
 
       let datateste = primeiraOcorrencia
 
@@ -85,17 +72,22 @@ function ListasCompras() {
         datateste.setDate(datateste.getDate() + 7 * item?.fields?.repeticao)
 
         if (datateste < data_encerramento) {
-          console.log('menos')
-          newLista = [...newLista, { title: item?.fields?.nome, start: new Date(datateste), end: new Date(datateste) }]
+          newLista = [
+            ...newLista, {
+              title: item?.fields?.nome,
+              start: new Date(datateste),
+              end: new Date(datateste),
+              id: item?.id,
+            }
+          ]
         }
       }
     }
   }
 
-
   return (
     <S.Container>
-      <h1>Listas de Compra</h1>
+      <h1>Lista de Compra</h1>
       {newLista && <Calendario listProducts={newLista} />}
     </S.Container>
   );

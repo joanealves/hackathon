@@ -17,7 +17,7 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     h1 {
-        color: var(--green_dark)
+        color: var(--green_dark);
     }
 
     html {
