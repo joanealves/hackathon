@@ -2,8 +2,6 @@ import React from 'react';
 import * as S from './ModalCalendario.styles'
 
 function ModalCalendario({ selectedProduct, setIsOpenModal }) {
-    console.log('selectedProduct', selectedProduct)
-
     return (
         <S.ModalBox>
             <S.Modal>
