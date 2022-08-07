@@ -1,20 +1,37 @@
 import React, { useEffect, useState } from "react";
-import Calendario from "./CalendarioCompleto";
 import * as S from "./ListaCompleta.styles";
 import moment from 'moment'
+import ModalCalendario from "../../components/modal-calendario/ModalCalendario";
+import { RiArrowRightCircleFill, RiArrowLeftCircleFill } from "react-icons/ri";
+import { FcCheckmark } from "react-icons/fc";
+import { AiOutlinePlus } from "react-icons/ai";
+import Navbar from "../../components/navbar/Navbar";
 
-const apiAirtable = 'https://api.airtable.com/v0/app4vUGC2nxXBaIY7/Produtos?fields%5B%5D=id&fields%5B%5D=id_usuario&fields%5B%5D=nome&fields%5B%5D=repeticao&fields%5B%5D=repeticao_dia&fields%5B%5D=encerramento&fields%5B%5D=data_criacao'
+const apiAirtable = 'https://api.airtable.com/v0/app4vUGC2nxXBaIY7/Produtos?fields%5B%5D=id&fields%5B%5D=id_usuario&fields%5B%5D=nome&fields%5B%5D=repeticao&fields%5B%5D=repeticao_dia&fields%5B%5D=encerramento&fields%5B%5D=data_criacao&fields%5B%5D=comprado'
 
 let newLista = []
-function ListaCompleta() {
-    const [listProducts, setlistProducts] = useState()
 
+let isNewDate = new Date()
+let formatedNewDate = new Date()
+let today = isNewDate.getDate()
+function ListaCompleta() {
+
+    const [listProducts, setlistProducts] = useState()
+    const [isOpenModal, setIsOpenModal] = useState(false)
+    const [day, setDay] = useState(today)
 
     useEffect(() => {
+        newLista = []
         airtable()
+        produtosDia()
     }, [])
 
+    let todayDate = formatedNewDate.setDate(day)
+    let formatedTodayDate = new Date(todayDate)
+    let todayDateSplited = formatedTodayDate?.toString()?.split(' ')
+    let today_format_dia = `${todayDateSplited[2]}-${todayDateSplited[1]}-${todayDateSplited[3]}`
 
+    // Método para buscar produtos do airtable
     const airtable = () => {
         let newResult = []
         let myHeaders = new Headers();
@@ -37,54 +54,171 @@ function ListaCompleta() {
         return newResult
     }
 
-    const formattedListProducts = () => {
-        const newList = listProducts?.map(item => {
-            let data_criacao = new Date(item?.fields?.data_criacao * 1000)
-            let data_encerramento = new Date(item?.fields?.encerramento * 1000)
+    // Itera a lista para ajustar as ocorrências dos produtos
+    const listAirtable = () => {
+        if (listProducts) {
+            newLista = []
+            for (let item of listProducts) {
 
-            let firstDayOfWeek = moment(data_criacao).weekday(Number(0)).format('YYYY-MM-DD ')
-            let moment_last_day_of_Week = moment(data_criacao).weekday(Number(6)).format('YYYY-MM-DD ')
-            var splited_last_day_of_Week = moment_last_day_of_Week.split('-')
-            var last_day_of_Week = new Date(splited_last_day_of_Week[0], (splited_last_day_of_Week[1] - 1), splited_last_day_of_Week[2])
-
-            // primeira recorrência - de acordo com a repeticao Dia
-            var data_dia_semana = moment(firstDayOfWeek).weekday(Number(item?.fields?.repeticao_dia)).format('YYYY-MM-DD')
-            var splited_data_dia_semana = data_dia_semana.split('-')
-            var primeiraRecorrencia = new Date(splited_data_dia_semana[0], (splited_data_dia_semana[1] - 1), splited_data_dia_semana[2])
+                let data_criacao = new Date(item?.fields?.data_criacao * 1000)
+                let data_encerramento = new Date(item?.fields?.encerramento * 1000)
 
 
-            let somaDias = 7 + primeiraRecorrencia.getDay()
-            let isDate = new Date('2022', Number(splited_data_dia_semana[1] - 1), somaDias)
+                let firstDayOfWeek = moment(data_criacao).weekday(Number(0)).format('YYYY-MM-DD ')
 
+                if (data_criacao > firstDayOfWeek) {
+                    continue;
+                }
 
-            newLista = [...newLista, { title: item?.fields?.nome, start: new Date(isDate), end: new Date(isDate) }]
-            let datateste = isDate
-            while (datateste < data_encerramento) {
-                datateste.setDate(datateste.getDate() + (7 * item?.fields?.repeticao))
-                newLista = [...newLista, { title: item?.fields?.nome, start: new Date(datateste), end: new Date(datateste) }]
+                if (data_encerramento < firstDayOfWeek) {
+                    continue;
+                }
+                let somadedias = 0;
+
+                if (data_criacao.getDay() > item?.fields.repeticao_dia) {
+                    somadedias = 7 - (data_criacao.getDay() - item?.fields.repeticao_dia)
+                } else {
+                    somadedias = (data_criacao.getDay() - item?.fields.repeticao_dia) * -1
+                }
+
+                let primeiraOcorrencia = new Date(data_criacao.setDate(data_criacao.getDate() + somadedias))
+
+                let datateste = primeiraOcorrencia
+
+                newLista = [
+                    ...newLista,
+                    {
+                        title: item?.fields?.nome,
+                        start: new Date(datateste),
+                        end: new Date(datateste),
+                        id: item?.id,
+                        comprado: item?.fields?.comprado || false,
+                        repeticao_dia: item?.fields?.repeticao_dia,
+                        repeticao: item?.fields?.repeticao
+
+                    }
+                ]
+
+                while (datateste < data_encerramento) {
+                    datateste.setDate(datateste.getDate() + 7 * item?.fields?.repeticao)
+
+                    if (datateste < data_encerramento) {
+                        newLista = [
+                            ...newLista, {
+                                title: item?.fields?.nome,
+                                start: new Date(datateste),
+                                end: new Date(datateste),
+                                id: item?.id,
+                                comprado: item?.fields?.comprado || false
+                            }
+                        ]
+
+                    }
+                }
             }
-
-
-            let soma = 0
-            if (data_criacao.getDay() - item?.fields?.repeticao_dia < 0) {
-                soma = (data_criacao.getDay() - primeiraRecorrencia) * -1 // retorno em timestemp
-                var data = new Date(soma)
-                newLista = [...newLista, { title: item?.fields?.nome, start: data, end: data }]
-            }
-
-        })
-        return newList
+        }
     }
 
-    const list = formattedListProducts()
+    listAirtable()
 
-    console.log('newLista', newLista)
+    // Lógica para listar produtos por dia 
+    const produtosDia = () => {
+
+        const lista = newLista?.filter((prod) => {
+            let dataProduto = prod?.start?.toString()?.split(' ')
+            let format_dia = `${dataProduto[2]}-${dataProduto[1]}-${dataProduto[3]}`
+
+            return format_dia === today_format_dia
+        })
+
+        return lista
+    }
+
+    const newProdutos = newLista && produtosDia()
+
+    // Método para alterar o dia apresentado
+    const pagination = (item = false) => {
+        if (item) {
+            setDay((state) => state + 1)
+        } else {
+            setDay((state) => state - 1)
+        }
+
+        produtosDia()
+    }
+
+    const handleCheckmark = (item = false) => {
+        // Atualiza o produto como comprado
+        let Airtable = require('airtable');
+        var base = new Airtable({ apiKey: 'keyIQRTXBdJyaVJaz' }).base('app4vUGC2nxXBaIY7');
+
+        base('Produtos').update([
+            {
+                "id": item?.id,
+                "fields": {
+                    "nome": item?.title,
+                    "comprado": !item.comprado,
+                }
+            },
+
+        ], function (err, records) {
+            if (err) {
+                console.error(err);
+                return;
+            }
+
+        });
+
+        airtable()
+        listAirtable()
+        produtosDia()
+    }
+
+    const isPurchase = (purchase) => {
+        return purchase ? <FcCheckmark /> : <AiOutlinePlus />
+    }
+
     return (
         <S.Container>
-            <h1>Listas de Compra por dia</h1>
-            {newLista && <Calendario listProducts={newLista} />}
+            <Navbar />
+            <S.Header>
+                <h1>Produtos do Dia</h1>
+                <div>
+                    <h2>{day}</h2>
+                    <span>{todayDateSplited[1]}</span><span>{todayDateSplited[3]}</span>
+                </div>
+            </S.Header>
+            {newProdutos.length > 0 ? (
+                <S.Section>
+                    {newProdutos?.map((item, index) => (
+                        <S.Produto key={index} purchase={item?.comprado}>
+                            <p>{item.title}</p>
+                            <S.CheckmarkButton onClick={() => handleCheckmark(item)} title={!item?.comprado && 'Comprar Item'}>
+                                {isPurchase(item?.comprado)}
+                            </S.CheckmarkButton>
+                        </S.Produto>
+                    ))}
+                </S.Section>
+            ) : (
+                <p>Não temos produtos registrados nesse dia</p>
+            )}
+            <S.ContainerBtn>
+                <S.BtnPagination onClick={() => pagination()}>
+                    <RiArrowLeftCircleFill />
+                </S.BtnPagination>
+                <S.BtnPagination onClick={() => pagination(true)} >
+                    <RiArrowRightCircleFill />
+                </S.BtnPagination>
+            </S.ContainerBtn>
+            {isOpenModal && (
+                <ModalCalendario setIsOpenModal={setIsOpenModal} />
+            )}
+
         </S.Container>
     );
 }
 
 export default ListaCompleta;
+
+
+

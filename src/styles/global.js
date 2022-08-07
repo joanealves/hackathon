@@ -17,7 +17,7 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     h1 {
-        color: var(--green_dark)
+        color: var(--green_dark);
     }
 
     html {
@@ -38,5 +38,9 @@ export const GlobalStyle = createGlobalStyle`
     button {
         cursor: pointer;
         color: var(--green_light);
+    }
+
+    p {
+        font-size: 16px;
     }
 `;

@@ -10,6 +10,10 @@ export const CalendarWrapper = styled.div`
 
 export const CalendarBox = styled.div`
 
+ /* .rbc-row-segment {
+  
+ } */
+
 `;
 
 export const Absolute = styled.div`

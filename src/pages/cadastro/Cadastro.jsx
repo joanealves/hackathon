@@ -30,7 +30,7 @@ function Cadastro() {
     // Creating a new record and posting on Airtable
     base("Produtos").create(
       {
-        id_usuario: JSON.parse(localStorage.getItem("users"))[0],
+        id_usuario: JSON.parse(localStorage.getItem("users"))?.[0],
         nome: productName,
         repeticao: parseInt(repetition),
         repeticao_dia: parseInt(repetitionDay),
@@ -59,6 +59,7 @@ function Cadastro() {
   const handleDate = (e) => {
     var getDate = e.target.value;
     var SelectedDate = new Date(getDate).getTime() / 1000;
+    console.log("getDate", getDate);
     setEndingDay(SelectedDate);
   };
 
