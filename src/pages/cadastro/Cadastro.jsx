@@ -79,7 +79,7 @@ function Cadastro() {
     <S.Container>
       {/* <h1 className="cadastroTitle">Cadastro de Produtos</h1> */}
       <div className="header">
-        <styles.Image className="image">
+        <styles.Image className="image" alt="logo-markit">
           <img src={LogoCar}></img>
         </styles.Image>
         <styles.Title>

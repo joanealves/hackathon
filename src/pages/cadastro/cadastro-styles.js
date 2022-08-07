@@ -28,7 +28,7 @@ export const Container = styled.div`
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    background-color: var(--white);
+    // background-color: var(--white);
     border-radius: 20px;
 
     .header {
@@ -131,7 +131,7 @@ export const Form = styled.form`
   }
 
   // Desktop View
-  @media screen and (min-width: 1008px) {
+  @media screen and (min-width: 1080px) {
     width: 70%;
     transform: scale(1);
   }
