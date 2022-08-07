@@ -79,8 +79,8 @@ function Cadastro() {
     <S.Container>
       {/* <h1 className="cadastroTitle">Cadastro de Produtos</h1> */}
       <div className="header">
-        <styles.Image className="image" alt="logo-markit">
-          <img src={LogoCar}></img>
+        <styles.Image className="image">
+          <img src={LogoCar} alt="logo-markit"></img>
         </styles.Image>
         <styles.Title>
           <div></div>
@@ -99,8 +99,7 @@ function Cadastro() {
             type="text"
             name="product-name"
             placeholder="Nome do produto"
-            pattern="[a-zA-Z]+"
-            // pattern="^([A-zÀ-ú]|-|_|\s)+$[^\s]+(\s+[^\s]+)*$"
+            pattern="^[a-zA-Z\u00C0-\u00FF\s]+/i]+$"
             title="O nome do produto deve conter apenas letras"
             minLength={3}
             onChange={(e) => setProductName(e.target.value)}
