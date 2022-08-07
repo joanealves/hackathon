@@ -35,30 +35,49 @@ export const CalendarBox = styled.div`
 export const Section = styled.section`
  margin-top: 20px;
  background: var(--green_light);
- padding: 4px;
+ padding: 8px;
  display: flex;
  flex-direction: column;
  gap: 8px;
  margin: 16px 0;
  width: 100%;
- border-radius: 5px;
+ border-radius: 4px;
+ max-width: 800px;
 `
-
 export const Produto = styled.div`
-   background: #e7f6f2;
-   height: 39px;
+   background: ${({ purchase }) => purchase ? 'var(--shape)' : 'var(--green_light)'};
+   height: 40px;
    display: flex;
    align-content: center;
    justify-content: space-between;
-   padding: 4px;
+   padding: 6px;
    align-items: center;
    width: 100%;
-  
+   border: 1px solid var(--green_dark);
+   border-radius: 4px
+   
 `
+export const Header = styled.div`
+   background: var(--green_light);
+   display: flex;   
+   align-content: center;
+   align-items: center;
+   justify-content: space-between;
+   padding: 0 20px 20px 4px;
+   width: 100%;
+   max-width: 800px;
+   border-radius: 5px;
 
+   div {
+    display: flex;   
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+   }
+`
 export const Absolute = styled.div`
  position: absolute;
- background: #e7f6f2;
+ background: var(--shape);
  width: 100%;
  z-index: 600;
  height: 200px;
@@ -72,7 +91,6 @@ export const ContainerBtn = styled.div`
     gap: 8px;
     margin: 16px 0;
 `
-
 export const BtnPagination = styled.button`
   cursor: pointer;
   background: var(--green_dark);
@@ -88,11 +106,12 @@ export const BtnPagination = styled.button`
   
 `
 export const CheckmarkButton = styled.button`
-   background: var(--green_light);
+  background: var(--green_light);
   border: unset;
   padding: 4px;
   border-radius: 4px;
-  width: 40px;
+  width: 30px;
+  height: 30px;
   
    svg {
     width: 20px;

@@ -47,7 +47,6 @@ function Cadastro() {
   const handleDate = (e) => {
     var getDate = e.target.value;
     var SelectedDate = new Date(getDate).getTime() / 1000;
-    console.log("getDate", getDate);
     setEndingDay(SelectedDate);
   };
 

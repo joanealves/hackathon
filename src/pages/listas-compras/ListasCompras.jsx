@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Calendario from "./Calendario";
 import * as S from "./ListasCompras.styles";
 import moment from 'moment'
+import Navbar from "../../components/navbar/Navbar";
 
 const apiAirtable = 'https://api.airtable.com/v0/app4vUGC2nxXBaIY7/Produtos?fields%5B%5D=id&fields%5B%5D=id_usuario&fields%5B%5D=nome&fields%5B%5D=repeticao&fields%5B%5D=repeticao_dia&fields%5B%5D=encerramento&fields%5B%5D=data_criacao'
 
@@ -43,7 +44,6 @@ function ListasCompras() {
     for (let item of listProducts) {
       let data_criacao = new Date(item?.fields?.data_criacao * 1000)
       let data_encerramento = new Date(item?.fields?.encerramento * 1000)
-
 
       let firstDayOfWeek = moment(data_criacao).weekday(Number(0)).format('YYYY-MM-DD ')
 
@@ -87,6 +87,7 @@ function ListasCompras() {
 
   return (
     <S.Container>
+      <Navbar />
       <h1>Lista de Compra</h1>
       {newLista && <Calendario listProducts={newLista} />}
     </S.Container>
