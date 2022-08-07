@@ -10,25 +10,6 @@ const localizer = momentLocalizer(moment)
 
 function Calendario({ listProducts }) {
 
-    const handleSelectSlot = useCallback(
-        ({ start, end }) => {
-            const title = window.prompt('New Event Name')
-            if (title) {
-                console.log('start', start)
-                console.log('end', end)
-            }
-        },
-        []
-    )
-
-    const handleSelectEvent = useCallback(
-        (event) => {
-            console.log(event)
-            window.alert(event.title)
-        },
-        []
-    )
-
     const { messages } = useMemo(
         () => ({
             messages: {
@@ -56,8 +37,8 @@ function Calendario({ listProducts }) {
                     selectable
                     popup
                     style={{ height: 600 }}
-                    onSelectSlot={handleSelectSlot}
-                    onSelectEvent={handleSelectEvent}
+                    // onSelectSlot={handleSelectSlot}
+                    // onSelectEvent={handleSelectEvent}
                     messages={messages}
                 />
             </S.CalendarBox>
