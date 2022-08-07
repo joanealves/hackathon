@@ -1,15 +1,23 @@
 import React, { useState } from "react";
+
 import * as S from "./cadastro-styles";
-import Modal from "./Modal";
-import useModal from "./useModal";
+import * as styles from "../login/login-styles";
+import LogoCar from "../../assets/Logo sem fundo.png";
+import Modal from "../../components/modal-cadastro/Modal";
+import useModal from "../../components/modal-cadastro/useModal";
 
 function Cadastro() {
+  // Product fields states
   const [productName, setProductName] = useState("");
   const [repetition, setRepetition] = useState(0);
   const [repetitionDay, setRepetitionDay] = useState(0);
   const [endingDay, setEndingDay] = useState(0);
+
+  // Radio buttons and date states
   const [isDateDisabled, setIsDateDisabled] = useState(true);
   const [isRequired, setIsRequired] = useState(false);
+
+  // Modal state
   const { isShowing, toggle } = useModal();
 
   // Post data to Airtable
@@ -33,32 +41,55 @@ function Cadastro() {
       },
       function (err, record) {
         if (err) {
+          alert("Seu produto não foi cadastrado corretamente.");
           console.error(err);
           return;
         }
+        // Open model after successfully post data
+        toggle();
         console.log(record.getId());
       }
     );
+
+    // Reset form
     e.target.reset();
+
+    // Disable date input
     setIsDateDisabled(true);
-    toggle();
   };
 
   const handleDate = (e) => {
     var getDate = e.target.value;
     var SelectedDate = new Date(getDate).getTime() / 1000;
-    console.log("getDate", getDate);
     setEndingDay(SelectedDate);
   };
 
-  const handleRadio = () => {
-    setIsDateDisabled(false);
-    setIsRequired(true);
+  const handleRadio = (e) => {
+    if (e.target.value !== "never") {
+      setIsDateDisabled(false);
+      setIsRequired(true);
+    }
+
+    if (e.target.value === "never") {
+      document.getElementById("date").value = "";
+    }
   };
 
   return (
     <S.Container>
-      <h1>Cadastro de Produtos</h1>
+      {/* <h1 className="cadastroTitle">Cadastro de Produtos</h1> */}
+      <div className="header">
+        <styles.Image className="image" alt="logo-markit">
+          <img src={LogoCar}></img>
+        </styles.Image>
+        <styles.Title>
+          <div></div>
+          <p>
+            CADASTRO <span className="hideTitle">DE PRODUTOS</span>
+          </p>
+          <div></div>
+        </styles.Title>
+      </div>
 
       {/* Product registration form */}
       <S.Form onSubmit={postData}>
@@ -68,6 +99,9 @@ function Cadastro() {
             type="text"
             name="product-name"
             placeholder="Nome do produto"
+            pattern="[a-zA-Z]+"
+            // pattern="^([A-zÀ-ú]|-|_|\s)+$[^\s]+(\s+[^\s]+)*$"
+            title="O nome do produto deve conter apenas letras"
             minLength={3}
             onChange={(e) => setProductName(e.target.value)}
             required
@@ -127,13 +161,14 @@ function Cadastro() {
         </select>
 
         {/* Select when repetition will end */}
-        <S.RadioGroup>
+        <S.RadioGroup onChange={handleRadio}>
           <span>Termina:</span>
           <div>
             <input
               type="radio"
               name="repetition-ends"
               id="never"
+              value="never"
               required
               onChange={() => setIsDateDisabled(true)}
             />
@@ -144,7 +179,7 @@ function Cadastro() {
               type="radio"
               name="repetition-ends"
               id="select-date"
-              onChange={handleRadio}
+              value="end-date"
             />
             <label>Em: </label>
             <input

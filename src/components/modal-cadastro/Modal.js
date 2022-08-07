@@ -1,12 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import * as S from "./Modal-styles";
+import * as S from "./modal-styles";
 
 const Modal = ({ isShowing, hide }) =>
   isShowing
     ? ReactDOM.createPortal(
         <React.Fragment>
-          <S.ModalStyle className="modal-overlay" />
+          <S.ModalStyle className="modal-overlay" id="modal" />
           <S.ModalWrapper className="modal-wrapper" tabIndex={-1} role="dialog">
             <S.ModalWindow className="modal">
               <S.ModalHeader className="modal-header">
