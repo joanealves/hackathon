@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 import * as S from "./cadastro-styles";
-import LogoCar from "../../assets/Logo sem fundo.png";
 import Modal from "../../components/modal-cadastro/Modal";
 import useModal from "../../components/modal-cadastro/useModal";
 
@@ -76,11 +75,7 @@ function Cadastro() {
 
   return (
     <S.Container>
-      {/* <h1 className="cadastroTitle">Cadastro de Produtos</h1> */}
       <div className="headerCadastro">
-        <S.ImageCadastro className="image">
-          <img src={LogoCar} alt="logo-markit"></img>
-        </S.ImageCadastro>
         <S.TitleCadastro>
           <div></div>
           <p>

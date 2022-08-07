@@ -19,9 +19,10 @@ export const Container = styled.div`
   }
 
   // Desktop View
-  @media screen and (min-width: 1080px) {
+  @media screen and (min-width: 1024px) {
     margin: auto;
-    padding: 50px;
+    margin-top: 50px;
+    padding: 0 50px 50px 50px;
     width: 900px;
     position: absolute;
     top: 50%;
