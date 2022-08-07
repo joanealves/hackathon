@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 
 import * as S from "./cadastro-styles";
+import * as styles from "../login/login-styles";
+import LogoCar from "../../assets/Logo sem fundo.png";
 import Modal from "../../components/modal-cadastro/Modal";
 import useModal from "../../components/modal-cadastro/useModal";
 
@@ -75,7 +77,19 @@ function Cadastro() {
 
   return (
     <S.Container>
-      <h1>Cadastro de Produtos</h1>
+      {/* <h1 className="cadastroTitle">Cadastro de Produtos</h1> */}
+      <div className="header">
+        <styles.Image className="image">
+          <img src={LogoCar}></img>
+        </styles.Image>
+        <styles.Title>
+          <div></div>
+          <p>
+            CADASTRO <span className="hideTitle">DE PRODUTOS</span>
+          </p>
+          <div></div>
+        </styles.Title>
+      </div>
 
       {/* Product registration form */}
       <S.Form onSubmit={postData}>
