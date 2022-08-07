@@ -123,7 +123,8 @@ function ListaCompleta() {
 
     // Lógica para listar produtos por dia 
     const produtosDia = () => {
-        const lista = newLista.filter((prod) => {
+
+        const lista = newLista?.filter((prod) => {
             let dataProduto = prod?.start?.toString()?.split(' ')
             let format_dia = `${dataProduto[2]}-${dataProduto[1]}-${dataProduto[3]}`
 
@@ -133,7 +134,7 @@ function ListaCompleta() {
         return lista
     }
 
-    const newProdutos = produtosDia()
+    const newProdutos = newLista && produtosDia()
 
     // Método para alterar o dia apresentado
     const pagination = (item = false) => {
@@ -165,9 +166,7 @@ function ListaCompleta() {
                 console.error(err);
                 return;
             }
-            records.forEach(function (record) {
-                console.log(record.get('repeticao'));
-            });
+
         });
 
         airtable()

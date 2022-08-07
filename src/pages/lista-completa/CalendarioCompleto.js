@@ -10,6 +10,25 @@ const localizer = momentLocalizer(moment)
 
 function CalendarioCompleto({ listProducts }) {
 
+    const handleSelectSlot = useCallback(
+        ({ start, end }) => {
+            const title = window.prompt('New Event Name')
+            if (title) {
+                console.log('start', start)
+                console.log('end', end)
+            }
+        },
+        []
+    )
+
+    const handleSelectEvent = useCallback(
+        (event) => {
+            console.log(event)
+            window.alert(event.title)
+        },
+        []
+    )
+
     const { messages } = useMemo(
         () => ({
             messages: {
