@@ -4,21 +4,35 @@ import * as S from "./ListaCompleta.styles";
 import moment from 'moment'
 import { Modal } from "../../components/modal-calendario/ModalCalendario.styles";
 import ModalCalendario from "../../components/modal-calendario/ModalCalendario";
+import { RiArrowRightCircleFill, RiArrowLeftCircleFill } from "react-icons/ri";
 
 const apiAirtable = 'https://api.airtable.com/v0/app4vUGC2nxXBaIY7/Produtos?fields%5B%5D=id&fields%5B%5D=id_usuario&fields%5B%5D=nome&fields%5B%5D=repeticao&fields%5B%5D=repeticao_dia&fields%5B%5D=encerramento&fields%5B%5D=data_criacao'
 
 let newLista = []
 
+let isNewDate = new Date()
+let formatedNewDate = new Date()
+let today = isNewDate.getDate()
+let todayDate = formatedNewDate.setDate(today)
+let formatedTodayDate = new Date(todayDate)
+let todayDateSplited = formatedTodayDate?.toString()?.split(' ')
+let today_format_dia = `${todayDateSplited[2]}-${todayDateSplited[1]}-${todayDateSplited[3]}`
+
 function ListaCompleta() {
 
     const [listProducts, setlistProducts] = useState()
     const [isOpenModal, setIsOpenModal] = useState(false)
-    const [selectedProduct, setSelectedProduct] = useState(false)
+    const [newProdutosDia, setNewProdutosDia] = useState([])
+    const [day, setDay] = useState(today)
 
     useEffect(() => {
         newLista = []
         airtable()
+        produtosDia()
     }, [])
+
+
+
 
     const airtable = () => {
         let newResult = []
@@ -41,6 +55,8 @@ function ListaCompleta() {
 
         return newResult
     }
+
+
 
     if (listProducts) {
         for (let item of listProducts) {
@@ -69,7 +85,7 @@ function ListaCompleta() {
 
             let datateste = primeiraOcorrencia
 
-            newLista = [...newLista, { title: item?.fields?.nome, start: new Date(datateste), end: new Date(datateste) }]
+            newLista = [...newLista, { title: item?.fields?.nome, start: new Date(datateste), end: new Date(datateste), id: item?.id }]
 
             while (datateste < data_encerramento) {
                 datateste.setDate(datateste.getDate() + 7 * item?.fields?.repeticao)
@@ -83,26 +99,77 @@ function ListaCompleta() {
                             id: item?.id,
                         }
                     ]
+
                 }
             }
         }
     }
 
-    console.log('isOpenModal', isOpenModal)
+    // Lógica para listar produtos por dia 
+    const produtosDia = () => {
+        const lista = newLista.filter((prod) => {
+            let dataProduto = prod?.start?.toString()?.split(' ')
+            let format_dia = `${dataProduto[2]}-${dataProduto[1]}-${dataProduto[3]}`
+
+            return format_dia === today_format_dia
+        })
+
+        console.log('lista', lista)
+        return lista
+    }
+
+    const newProdutos = produtosDia()
+    console.log('newProdutos', newProdutos)
+
+    console.log('today_format_dia', today_format_dia)
+
+
+    const pagination = () => {
+        setDay((state) => state + 1)
+        produtosDia()
+        console.log('pagination rodou')
+    }
+    console.log('today', today)
+    console.log('day', day)
+
+
+
     return (
         <S.Container>
 
             <h1>Lista de Compra por dia</h1>
+            <h2>{day}</h2>
+            {newProdutos && (
+                <S.Section>
+                    {newProdutos?.map((item) => (
+                        <S.Produto>
+                            <p>{item.title}</p>
+                        </S.Produto>
+                    ))}
+                </S.Section>
+            )}
+
+
+            {/* today = +1 */}
+            <S.ContainerBtn>
+
+                <S.BtnPagination >
+                    <RiArrowLeftCircleFill width="12" />
+                </S.BtnPagination>
+
+                <S.BtnPagination onClick={pagination} >
+                    <RiArrowRightCircleFill />
+                </S.BtnPagination>
+            </S.ContainerBtn>
+            {/* 
+                clicar no butão = onclick
+                criar uma função pra rodar toda vez que clicar
+                acrescentar + 1 a variável today
+                chamar a função produtosDia filtrando a nova data (today)
+            */}
+
             {isOpenModal && (
                 <ModalCalendario setIsOpenModal={setIsOpenModal} />
-            )}
-            {newLista && (
-                <Calendario
-                    listProducts={newLista}
-                    setIsOpenModal={setIsOpenModal}
-                    setSelectedProduct={setSelectedProduct}
-                    selectedProduct={selectedProduct}
-                />
             )}
 
 
@@ -111,4 +178,6 @@ function ListaCompleta() {
 }
 
 export default ListaCompleta;
+
+
 
