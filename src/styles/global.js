@@ -39,4 +39,8 @@ export const GlobalStyle = createGlobalStyle`
         cursor: pointer;
         color: var(--green_light);
     }
+
+    p {
+        font-size: 16px;
+    }
 `;

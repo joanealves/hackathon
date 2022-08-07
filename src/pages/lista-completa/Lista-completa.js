@@ -5,6 +5,7 @@ import moment from 'moment'
 import { Modal } from "../../components/modal-calendario/ModalCalendario.styles";
 import ModalCalendario from "../../components/modal-calendario/ModalCalendario";
 import { RiArrowRightCircleFill, RiArrowLeftCircleFill } from "react-icons/ri";
+import { FcCheckmark } from "react-icons/fc";
 
 const apiAirtable = 'https://api.airtable.com/v0/app4vUGC2nxXBaIY7/Produtos?fields%5B%5D=id&fields%5B%5D=id_usuario&fields%5B%5D=nome&fields%5B%5D=repeticao&fields%5B%5D=repeticao_dia&fields%5B%5D=encerramento&fields%5B%5D=data_criacao'
 
@@ -13,16 +14,10 @@ let newLista = []
 let isNewDate = new Date()
 let formatedNewDate = new Date()
 let today = isNewDate.getDate()
-let todayDate = formatedNewDate.setDate(today)
-let formatedTodayDate = new Date(todayDate)
-let todayDateSplited = formatedTodayDate?.toString()?.split(' ')
-let today_format_dia = `${todayDateSplited[2]}-${todayDateSplited[1]}-${todayDateSplited[3]}`
-
 function ListaCompleta() {
 
     const [listProducts, setlistProducts] = useState()
     const [isOpenModal, setIsOpenModal] = useState(false)
-    const [newProdutosDia, setNewProdutosDia] = useState([])
     const [day, setDay] = useState(today)
 
     useEffect(() => {
@@ -31,8 +26,10 @@ function ListaCompleta() {
         produtosDia()
     }, [])
 
-
-
+    let todayDate = formatedNewDate.setDate(day)
+    let formatedTodayDate = new Date(todayDate)
+    let todayDateSplited = formatedTodayDate?.toString()?.split(' ')
+    let today_format_dia = `${todayDateSplited[2]}-${todayDateSplited[1]}-${todayDateSplited[3]}`
 
     const airtable = () => {
         let newResult = []
@@ -56,9 +53,8 @@ function ListaCompleta() {
         return newResult
     }
 
-
-
     if (listProducts) {
+        newLista = []
         for (let item of listProducts) {
             let data_criacao = new Date(item?.fields?.data_criacao * 1000)
             let data_encerramento = new Date(item?.fields?.encerramento * 1000)
@@ -114,64 +110,73 @@ function ListaCompleta() {
             return format_dia === today_format_dia
         })
 
-        console.log('lista', lista)
         return lista
     }
 
     const newProdutos = produtosDia()
-    console.log('newProdutos', newProdutos)
 
-    console.log('today_format_dia', today_format_dia)
+    // Método para alterar o dia apresentado
+    const pagination = (item = false) => {
+        if (item) {
+            setDay((state) => state + 1)
+        } else {
+            setDay((state) => state - 1)
+        }
 
-
-    const pagination = () => {
-        setDay((state) => state + 1)
         produtosDia()
         console.log('pagination rodou')
     }
-    console.log('today', today)
-    console.log('day', day)
 
+    const handleCheckmark = (item = false) => {
+
+        console.log('handleCheckmark rodou', handleCheckmark)
+    }
+
+    console.log('newLista', newLista)
+    console.log('newProdutos', newProdutos)
+    console.log('today_format_dia', today_format_dia)
 
 
     return (
         <S.Container>
 
             <h1>Lista de Compra por dia</h1>
-            <h2>{day}</h2>
-            {newProdutos && (
+
+            <h2>
+                {day}
+            </h2>
+            <span>{todayDateSplited[1]}</span><span>{todayDateSplited[3]}</span>
+            {newProdutos.length > 0 ? (
                 <S.Section>
-                    {newProdutos?.map((item) => (
-                        <S.Produto>
+                    {newProdutos?.map((item, index) => (
+                        <S.Produto key={index}>
                             <p>{item.title}</p>
+                            <S.CheckmarkButton >
+                                <FcCheckmark onClick={() => handleCheckmark()} />
+                            </S.CheckmarkButton>
+                            {/* 
+                            estilizar 
+                            adicionar evento onClick
+                            criar function handleCheckmark
+                            
+                            */}
                         </S.Produto>
                     ))}
                 </S.Section>
+            ) : (
+                <p>Não temos produtos registrados nesse dia</p>
             )}
-
-
-            {/* today = +1 */}
             <S.ContainerBtn>
-
-                <S.BtnPagination >
-                    <RiArrowLeftCircleFill width="12" />
+                <S.BtnPagination onClick={() => pagination()}>
+                    <RiArrowLeftCircleFill />
                 </S.BtnPagination>
-
-                <S.BtnPagination onClick={pagination} >
+                <S.BtnPagination onClick={() => pagination(true)} >
                     <RiArrowRightCircleFill />
                 </S.BtnPagination>
             </S.ContainerBtn>
-            {/* 
-                clicar no butão = onclick
-                criar uma função pra rodar toda vez que clicar
-                acrescentar + 1 a variável today
-                chamar a função produtosDia filtrando a nova data (today)
-            */}
-
             {isOpenModal && (
                 <ModalCalendario setIsOpenModal={setIsOpenModal} />
             )}
-
 
         </S.Container>
     );
