@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 export const HEADER = styled.header`
   padding: 16px;
   height: 80px;
+   width: 100%;
+  margin-bottom: 30px;
   background-color: var(--green_dark);
   display: flex;
   align-items: center;

@@ -14,7 +14,6 @@ const Rotas = () => {
   return (
     <BrowserRouter>
       <Navbar />
-      <S.Container></S.Container>
       <Routes>
         <Route exact path="/" element={<Login />} />
         <Route

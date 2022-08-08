@@ -4,6 +4,7 @@ import * as S from "./cadastro-styles";
 import Modal from "../../components/modal-cadastro/Modal";
 import useModal from "../../components/modal-cadastro/useModal";
 import { baseURL } from "../../services/api";
+import Navbar from "../../components/navbar/Navbar";
 
 function Cadastro() {
   // Product fields states

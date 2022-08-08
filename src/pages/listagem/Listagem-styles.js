@@ -40,14 +40,14 @@ export const Line = styled.div`
   background-color: #e7f6f2;
   border: 1px solid #414141;
   font-weight: 500;
+  justify-content: space-between;
   p:nth-child(1) {
     letter-spacing: 2px;
-    width: 10%;
+    /* width: 100%; */
   }
   p:nth-child(2) {
     font-size: 16px;
     letter-spacing: 1px;
-    width: 1000%;
     text-align: center;
   }
   p:nth-child(3) {

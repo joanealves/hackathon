@@ -1,11 +1,8 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
 
 export function PrivateRoute({ children }) {
-  const [user, setUser] = useState(true);
-
-  //Fazer funcionar
+  const [user, setUser] = useState(false);
 
   useEffect(() => {
     const hash = JSON.parse(localStorage.getItem("users"));
@@ -16,5 +13,5 @@ export function PrivateRoute({ children }) {
     }
   }, []);
 
-  return user ? children : <Navigate to="/" />;
+  return user ? children : <div></div>;
 }

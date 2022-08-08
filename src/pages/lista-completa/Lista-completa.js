@@ -5,7 +5,6 @@ import ModalCalendario from "../../components/modal-calendario/ModalCalendario";
 import { RiArrowRightCircleFill, RiArrowLeftCircleFill } from "react-icons/ri";
 import { FcCheckmark } from "react-icons/fc";
 import { AiOutlinePlus } from "react-icons/ai";
-import Navbar from "../../components/navbar/Navbar";
 // import { baseURL } from "../../services/api";
 
 // const apiAirtable =
@@ -184,7 +183,6 @@ function ListaCompleta() {
 
     return (
         <S.Container>
-            <Navbar />
             <S.Header>
                 <h1>Produtos do Dia</h1>
                 <div>
