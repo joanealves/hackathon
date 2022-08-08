@@ -11,6 +11,7 @@ export const HEADER = styled.header`
   flex-direction: row;
   justify-content: space-between;
 `;
+
 export const LogoContainer = styled.div`
   display: flex;
 `;
@@ -19,6 +20,7 @@ export const MarketLogo = styled.img`
 `;
 export const LogoCar = styled.img`
   height: 30px;
+  margin-left: 15px;
 `;
 
 export const NavContainer = styled.nav`
@@ -31,10 +33,9 @@ export const NavLink = styled(Link)`
   text-decoration: none;
   color: var(--green_light);
   cursor: pointer;
-
   &:hover {
-    color: var(--gray);
-    filter: brightness(0.8);
+    color: var(--white);
+    // filter: brightness(0.8);
     /* text-decoration: none; */
   }
 `;
