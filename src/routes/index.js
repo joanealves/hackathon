@@ -6,7 +6,6 @@ import Listagem from "../pages/listagem/Listagem";
 import ListaCompleta from "../pages/lista-completa/Lista-completa";
 import Navbar from "../components/navbar/Navbar";
 import { GlobalStyle } from "../styles/global";
-import * as S from "../App.styles";
 import ListasCompras from "../pages/listas-compras/ListasCompras";
 import { PrivateRoute } from "./privateRoute";
 

@@ -33,9 +33,8 @@ function Listagem() {
     );
 
     const deleteProduct = (id) => {
-        var x;
         var r = window.confirm("O produto será removido!");
-        if (r == true) {
+        if (r === true) {
             base("Produtos").destroy([id], function (err, deletedRecords) {
                 if (err) {
                     console.error(err);
@@ -44,8 +43,6 @@ function Listagem() {
                 console.log("Deleted", deletedRecords.length, "records");
             });
             addTable();
-        } else {
-            x = "Produto não removido!";
         }
     };
 

@@ -11,7 +11,7 @@ export function PrivateRoute({ children }) {
       setUser(true);
       console.log(user);
     }
-  }, []);
+  });
 
   return user ? children : <div></div>;
 }
