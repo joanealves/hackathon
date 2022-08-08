@@ -82,6 +82,7 @@ export const LoginForm = styled.div`
 
   button:hover {
     background-color: #295b64;
+    border: 1px solid black;
   }
 `;
 export const Email = styled.div`

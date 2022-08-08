@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 
 import * as S from "./cadastro-styles";
-import * as styles from "../login/login-styles";
-import LogoCar from "../../assets/Logo sem fundo.png";
 import Modal from "../../components/modal-cadastro/Modal";
 import useModal from "../../components/modal-cadastro/useModal";
+import { baseURL } from "../../services/api";
 
 function Cadastro() {
   // Product fields states
@@ -23,37 +22,32 @@ function Cadastro() {
   // Post data to Airtable
   const postData = (e) => {
     e.preventDefault();
-    // Airtable Connection and Configuration
-    var Airtable = require("airtable");
-    var base = new Airtable({ apiKey: "keyIQRTXBdJyaVJaz" }).base(
-      "app4vUGC2nxXBaIY7"
-    );
 
-    // Creating a new record and posting on Airtable
-    base("Produtos").create(
-      {
-        id_usuario: JSON.parse(localStorage.getItem("users"))?.[0],
-        nome: productName,
-        repeticao: parseInt(repetition),
-        repeticao_dia: parseInt(repetitionDay),
-        encerramento: endingDay,
-        data_criacao: new Date().getTime() / 1000,
+    fetch(baseURL, {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer keyIQRTXBdJyaVJaz",
+        "Content-type": "application/json",
       },
-      function (err, record) {
-        if (err) {
-          alert("Seu produto não foi cadastrado corretamente.");
-          console.error(err);
-          return;
-        }
-        // Open model after successfully post data
-        toggle();
-        console.log(record.getId());
-      }
-    );
+      body: JSON.stringify({
+        records: [
+          {
+            fields: {
+              id_usuario: JSON.parse(localStorage.getItem("users"))[0],
+              nome: productName,
+              repeticao: parseInt(repetition),
+              repeticao_dia: parseInt(repetitionDay),
+              encerramento: endingDay,
+              data_criacao: new Date().getTime() / 1000,
+            },
+          },
+        ],
+      }),
+    })
+      .then((response) => response.json(toggle()))
+      .catch((err) => console.log(err));
 
-    // Reset form
     e.target.reset();
-
     // Disable date input
     setIsDateDisabled(true);
   };
@@ -61,7 +55,6 @@ function Cadastro() {
   const handleDate = (e) => {
     var getDate = e.target.value;
     var SelectedDate = new Date(getDate).getTime() / 1000;
-    console.log("getDate", getDate);
     setEndingDay(SelectedDate);
   };
 
@@ -69,27 +62,21 @@ function Cadastro() {
     if (e.target.value !== "never") {
       setIsDateDisabled(false);
       setIsRequired(true);
-    }
-
-    if (e.target.value === "never") {
+    } else if (e.target.value === "never") {
       document.getElementById("date").value = "";
     }
   };
 
   return (
     <S.Container>
-      {/* <h1 className="cadastroTitle">Cadastro de Produtos</h1> */}
-      <div className="header">
-        <styles.Image className="image" alt="logo-markit">
-          <img src={LogoCar} alt="LogoCar"></img>
-        </styles.Image>
-        <styles.Title>
+      <div className="headerCadastro">
+        <S.TitleCadastro>
           <div></div>
           <p>
             CADASTRO <span className="hideTitle">DE PRODUTOS</span>
           </p>
           <div></div>
-        </styles.Title>
+        </S.TitleCadastro>
       </div>
 
       {/* Product registration form */}
@@ -100,11 +87,10 @@ function Cadastro() {
             type="text"
             name="product-name"
             placeholder="Nome do produto"
-            pattern="[a-zA-Z]+"
-            // pattern="^([A-zÀ-ú]|-|_|\s)+$[^\s]+(\s+[^\s]+)*$"
+            pattern="^[a-zA-Z\u00C0-\u00FF\s+/i]+$"
             title="O nome do produto deve conter apenas letras"
             minLength={3}
-            onChange={(e) => setProductName(e.target.value)}
+            onChange={(e) => setProductName(e.target.value.trim())}
             required
           />
         </S.Div>
@@ -114,7 +100,7 @@ function Cadastro() {
           <label htmlFor="repetition">Repetir a cada </label>
           <input
             type="number"
-            min="1"
+            min="0"
             step="1"
             name="repetition"
             id="repetition"

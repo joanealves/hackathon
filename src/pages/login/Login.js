@@ -1,4 +1,6 @@
 import * as S from "./login-styles";
+import React, { useState } from "react";
+
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import LogoCar from "../../assets/Logo sem fundo.png";
@@ -11,23 +13,23 @@ function Login() {
     navigate("/cadastro");
   };
 
+  //preciso comparar o valor do hash com o valor do localstorage la no priveteRoute
+
   const handleClickLogin = (values) => {
     //encrypting user data
     const dados = values.email + "-" + values.cpf;
     var CryptoJS = require("crypto-js");
     const hash = CryptoJS.MD5(dados).toString();
-    console.log(hash);
 
     //saving LocalStorage hash
     var user = [];
     const addUser = () => {
       if (localStorage.users) {
-        user = JSON.parse(localStorage.getItem("users"));
       }
       user.push(hash);
       localStorage.users = JSON.stringify(user);
-      console.log(localStorage.users);
     };
+    console.log(hash);
     addUser();
     log();
   };
