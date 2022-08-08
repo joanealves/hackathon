@@ -55,8 +55,8 @@ function ListasCompras() {
 
             return {
               title: item.fields?.nome,
-              start: new Date(year, testMes, day),
-              end: new Date(year, testMes, day),
+              start: new Date(year, mesIndexOf, repetirDia),
+              end: new Date(year, mesIndexOf, repetirDia),
             };
           });
           return newList;
