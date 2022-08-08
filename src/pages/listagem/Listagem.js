@@ -4,12 +4,14 @@ import Modal from "react-modal";
 import * as S from "./Listagem-styles";
 import { AiFillDelete } from "react-icons/ai";
 import "./Modal.css";
+import { baseURL } from "../../services/api";
 
 //Criar função que deleta produto
 
 function Listagem() {
   const api =
-    "https://api.airtable.com/v0/app4vUGC2nxXBaIY7/Produtos?fields%5B%5D=id&fields%5B%5D=id_usuario&fields%5B%5D=nome&fields%5B%5D=repeticao&fields%5B%5D=repeticao_dia&fields%5B%5D=encerramento&fields%5B%5D=data_criacao";
+    baseURL +
+    "?fields%5B%5D=id&fields%5B%5D=id_usuario&fields%5B%5D=nome&fields%5B%5D=repeticao&fields%5B%5D=repeticao_dia&fields%5B%5D=encerramento&fields%5B%5D=data_criacao";
   useEffect(() => {
     axios
       .get(api, {

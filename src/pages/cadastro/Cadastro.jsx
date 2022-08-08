@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import * as S from "./cadastro-styles";
 import Modal from "../../components/modal-cadastro/Modal";
 import useModal from "../../components/modal-cadastro/useModal";
+import { baseURL } from "../../services/api";
 
 function Cadastro() {
   // Product fields states
@@ -21,37 +22,32 @@ function Cadastro() {
   // Post data to Airtable
   const postData = (e) => {
     e.preventDefault();
-    // Airtable Connection and Configuration
-    var Airtable = require("airtable");
-    var base = new Airtable({ apiKey: "keyIQRTXBdJyaVJaz" }).base(
-      "app4vUGC2nxXBaIY7"
-    );
 
-    // Creating a new record and posting on Airtable
-    base("Produtos").create(
-      {
-        id_usuario: JSON.parse(localStorage.getItem("users"))[0],
-        nome: productName,
-        repeticao: parseInt(repetition),
-        repeticao_dia: parseInt(repetitionDay),
-        encerramento: endingDay,
-        data_criacao: new Date().getTime() / 1000,
+    fetch(baseURL, {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer keyIQRTXBdJyaVJaz",
+        "Content-type": "application/json",
       },
-      function (err, record) {
-        if (err) {
-          alert("Seu produto não foi cadastrado corretamente.");
-          console.error(err);
-          return;
-        }
-        // Open model after successfully post data
-        toggle();
-        console.log(record.getId());
-      }
-    );
+      body: JSON.stringify({
+        records: [
+          {
+            fields: {
+              id_usuario: JSON.parse(localStorage.getItem("users"))[0],
+              nome: productName,
+              repeticao: parseInt(repetition),
+              repeticao_dia: parseInt(repetitionDay),
+              encerramento: endingDay,
+              data_criacao: new Date().getTime() / 1000,
+            },
+          },
+        ],
+      }),
+    })
+      .then((response) => response.json(toggle()))
+      .catch((err) => console.log(err));
 
-    // Reset form
     e.target.reset();
-
     // Disable date input
     setIsDateDisabled(true);
   };
@@ -66,9 +62,7 @@ function Cadastro() {
     if (e.target.value !== "never") {
       setIsDateDisabled(false);
       setIsRequired(true);
-    }
-
-    if (e.target.value === "never") {
+    } else if (e.target.value === "never") {
       document.getElementById("date").value = "";
     }
   };
