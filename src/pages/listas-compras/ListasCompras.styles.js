@@ -9,6 +9,7 @@ export const Container = styled.div`
 
 export const CalendarWrapper = styled.div`
   padding-top:40px;
+  width: 100%;
 `;
 
 export const CalendarBox = styled.div`
