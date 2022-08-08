@@ -1,14 +1,14 @@
-import React, { Fragment, useCallback, useMemo } from 'react';
+import React, { Fragment, useCallback, useMemo, useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import moment from 'moment'
 import 'moment/locale/pt-br'
-import * as S from './ListasCompras.styles'
+import * as S from './ListaCompleta.styles'
 
 const localizer = momentLocalizer(moment)
 
 
-function Calendario({ listProducts }) {
+function CalendarioCompleto({ listProducts }) {
 
     const handleSelectSlot = useCallback(
         ({ start, end }) => {
@@ -39,7 +39,6 @@ function Calendario({ listProducts }) {
                 next: 'próxima',
                 today: 'hoje',
                 agenda: 'Lista Completa',
-
                 showMore: (total) => `mostrar + ${total}`,
             },
         }),
@@ -52,7 +51,7 @@ function Calendario({ listProducts }) {
                 <Calendar
                     localizer={localizer}
                     events={listProducts}
-                    defaultView="week"
+                    defaultView="day"
                     selectable
                     popup
                     style={{ height: 600 }}
@@ -67,4 +66,4 @@ function Calendario({ listProducts }) {
     );
 }
 
-export default Calendario;
+export default CalendarioCompleto;

@@ -2,6 +2,9 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   padding: 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 `;
 
 export const CalendarWrapper = styled.div`
@@ -10,7 +13,31 @@ export const CalendarWrapper = styled.div`
 
 export const CalendarBox = styled.div`
 
+ /* .rbc-row-segment {
+  
+ } */
+
+  
+ background: var(--green_light);
+ 
+ .sc-olbas  {
+  background: var(--green_dark) ;
+
+  .rbc-time-column {
+    color: #2c3333;
+  }
+
+  .rbc-row .rbc-month-header{
+    color: red;
+  }
+
+ rbc-event{
+    color: red;
+ }
+ }
 `;
+
+// class="rbc-calendar"
 
 export const Absolute = styled.div`
   position: absolute;

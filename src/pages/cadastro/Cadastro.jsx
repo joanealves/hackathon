@@ -1,13 +1,24 @@
 import React, { useState } from "react";
 
 import * as S from "./cadastro-styles";
+import Modal from "../../components/modal-cadastro/Modal";
+import useModal from "../../components/modal-cadastro/useModal";
 
 function Cadastro() {
+  // Product fields states
   const [productName, setProductName] = useState("");
   const [repetition, setRepetition] = useState(0);
   const [repetitionDay, setRepetitionDay] = useState(0);
-  const [endindDay, setEndingDay] = useState(1660521600);
+  const [endingDay, setEndingDay] = useState(0);
 
+  // Radio buttons and date states
+  const [isDateDisabled, setIsDateDisabled] = useState(true);
+  const [isRequired, setIsRequired] = useState(false);
+
+  // Modal state
+  const { isShowing, toggle } = useModal();
+
+  // Post data to Airtable
   const postData = (e) => {
     e.preventDefault();
     // Airtable Connection and Configuration
@@ -19,72 +30,107 @@ function Cadastro() {
     // Creating a new record and posting on Airtable
     base("Produtos").create(
       {
-        id_usuario: "0277a69cf889d21e9614966db20e858a",
+        id_usuario: JSON.parse(localStorage.getItem("users"))?.[0],
         nome: productName,
         repeticao: parseInt(repetition),
         repeticao_dia: parseInt(repetitionDay),
-        encerramento: endindDay,
+        encerramento: endingDay,
         data_criacao: new Date().getTime() / 1000,
       },
       function (err, record) {
         if (err) {
+          alert("Seu produto não foi cadastrado corretamente.");
           console.error(err);
           return;
         }
+        // Open model after successfully post data
+        toggle();
         console.log(record.getId());
       }
     );
+
+    // Reset form
+    e.target.reset();
+
+    // Disable date input
+    setIsDateDisabled(true);
   };
 
   const handleDate = (e) => {
     var getDate = e.target.value;
     var SelectedDate = new Date(getDate).getTime() / 1000;
     console.log("getDate", getDate);
-    const teste = document.write(getDate.toGMTString());
-    console.log("teste", teste);
     setEndingDay(SelectedDate);
+  };
+
+  const handleRadio = (e) => {
+    if (e.target.value !== "never") {
+      setIsDateDisabled(false);
+      setIsRequired(true);
+    }
+
+    if (e.target.value === "never") {
+      document.getElementById("date").value = "";
+    }
   };
 
   return (
     <S.Container>
-      <h1>Cadastro de Produtos</h1>
+      <div className="headerCadastro">
+        <S.TitleCadastro>
+          <div></div>
+          <p>
+            CADASTRO <span className="hideTitle">DE PRODUTOS</span>
+          </p>
+          <div></div>
+        </S.TitleCadastro>
+      </div>
 
       {/* Product registration form */}
       <S.Form onSubmit={postData}>
         {/* Insert title */}
-        <div>
-          <S.Input
+        <S.Div>
+          <input
             type="text"
             name="product-name"
             placeholder="Nome do produto"
-            onChange={(e) => setProductName(e.target.value)}
+            pattern="^[a-zA-Z\u00C0-\u00FF\s+/i]+$"
+            title="O nome do produto deve conter apenas letras"
+            minLength={3}
+            onChange={(e) => setProductName(e.target.value.trim())}
+            required
           />
-          {/* <label htmlFor="product-name">Nome do produto</label> */}
-        </div>
+        </S.Div>
 
         {/* Insert how many times repetition will occur */}
         <S.Div>
-          <S.Label htmlFor="repetition">Repetir a cada</S.Label>
-          <S.InputNumber
+          <label htmlFor="repetition">Repetir a cada </label>
+          <input
             type="number"
             min="0"
             step="1"
             name="repetition"
             id="repetition"
             onChange={(e) => setRepetition(e.target.value)}
+            required
           />
-          <S.Label>semana(s)</S.Label>
+          <span>semana(s)</span>
         </S.Div>
 
         {/* Select product recurrence by week day */}
         <S.Div>
-          <S.Label htmlFor="weekday">Dia da semana:</S.Label>
+          <label htmlFor="weekday">Dia da semana:</label>
         </S.Div>
 
-        <S.Select
+        <select
           name="weekday"
           onChange={(e) => setRepetitionDay(e.target.value)}
+          defaultValue={""}
+          required
         >
+          <option disabled value="">
+            -- Selecione --
+          </option>
           <option id="sun" value="0">
             Domingo
           </option>
@@ -106,23 +152,42 @@ function Cadastro() {
           <option id="sat" value="6">
             Sábado
           </option>
-        </S.Select>
+        </select>
 
         {/* Select when repetition will end */}
-        <S.FlexColumnDiv>
-          <S.Label>Termina:</S.Label>
-          <S.Div>
-            <input type="radio" name="repetition-ends" id="never" />
-            <S.Label htmlFor="repetition-ends-never">Nunca</S.Label>
-          </S.Div>
+        <S.RadioGroup onChange={handleRadio}>
+          <span>Termina:</span>
           <div>
-            <input type="radio" name="repetition-ends" id="date" />
-            <S.Label>Em: </S.Label>
-            <S.InputDate type="date" onChange={handleDate} />
+            <input
+              type="radio"
+              name="repetition-ends"
+              id="never"
+              value="never"
+              required
+              onChange={() => setIsDateDisabled(true)}
+            />
+            <label htmlFor="repetition-ends-never">Nunca</label>
           </div>
-        </S.FlexColumnDiv>
-        <S.Button type="submit">Cadastrar</S.Button>
+          <div>
+            <input
+              type="radio"
+              name="repetition-ends"
+              id="select-date"
+              value="end-date"
+            />
+            <label>Em: </label>
+            <input
+              type="date"
+              id="date"
+              onChange={handleDate}
+              disabled={isDateDisabled}
+              required={isRequired}
+            />
+          </div>
+        </S.RadioGroup>
+        <button type="submit">Cadastrar</button>
       </S.Form>
+      <Modal isShowing={isShowing} hide={toggle} />
     </S.Container>
   );
 }
