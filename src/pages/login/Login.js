@@ -45,7 +45,7 @@ function Login() {
   return (
     <div>
       <S.Image>
-        <img src={LogoCar}></img>
+        <img src={LogoCar} alt="LogoCar"></img>
       </S.Image>
       <S.Title>
         <div></div>

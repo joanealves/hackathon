@@ -28,7 +28,7 @@ function ListaCompleta() {
         newLista = []
         airtable()
         produtosDia()
-    }, [])
+    })
 
     let todayDate = formatedNewDate.setDate(day)
     let formatedTodayDate = new Date(todayDate)

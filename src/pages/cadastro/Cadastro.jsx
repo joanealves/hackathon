@@ -81,7 +81,7 @@ function Cadastro() {
       {/* <h1 className="cadastroTitle">Cadastro de Produtos</h1> */}
       <div className="header">
         <styles.Image className="image" alt="logo-markit">
-          <img src={LogoCar}></img>
+          <img src={LogoCar} alt="LogoCar"></img>
         </styles.Image>
         <styles.Title>
           <div></div>
