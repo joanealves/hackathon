@@ -9,7 +9,7 @@ export function PrivateRoute({ children }) {
 
   useEffect(() => {
     const hash = JSON.parse(localStorage.getItem("users"));
-    if (hash != "") {
+    if (hash !== "") {
       console.log("VALOR HASH ATUAL", hash);
       setUser(true);
       console.log(user);

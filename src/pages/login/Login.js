@@ -1,5 +1,5 @@
 import * as S from "./login-styles";
-import React, { useState } from "react";
+import React from "react";
 
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
