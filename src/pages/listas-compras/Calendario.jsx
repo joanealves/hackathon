@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import moment from 'moment'
@@ -9,25 +9,6 @@ const localizer = momentLocalizer(moment)
 
 
 function Calendario({ listProducts }) {
-
-    const handleSelectSlot = useCallback(
-        ({ start, end }) => {
-            const title = window.prompt('New Event Name')
-            if (title) {
-                console.log('start', start)
-                console.log('end', end)
-            }
-        },
-        []
-    )
-
-    const handleSelectEvent = useCallback(
-        (event) => {
-            console.log(event)
-            window.alert(event.title)
-        },
-        []
-    )
 
     const { messages } = useMemo(
         () => ({
