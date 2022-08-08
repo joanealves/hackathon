@@ -6,11 +6,8 @@ import { RiArrowRightCircleFill, RiArrowLeftCircleFill } from "react-icons/ri";
 import { FcCheckmark } from "react-icons/fc";
 import { AiOutlinePlus } from "react-icons/ai";
 import Navbar from "../../components/navbar/Navbar";
-import { baseURL } from "../../services/api";
 
-const apiAirtable =
-    baseURL +
-    "?fields%5B%5D=id&fields%5B%5D=id_usuario&fields%5B%5D=nome&fields%5B%5D=repeticao&fields%5B%5D=repeticao_dia&fields%5B%5D=encerramento&fields%5B%5D=data_criacao";
+const apiAirtable = 'https://api.airtable.com/v0/app4vUGC2nxXBaIY7/Produtos?fields%5B%5D=id&fields%5B%5D=id_usuario&fields%5B%5D=nome&fields%5B%5D=repeticao&fields%5B%5D=repeticao_dia&fields%5B%5D=encerramento&fields%5B%5D=data_criacao&fields%5B%5D=comprado'
 
 let newLista = []
 
